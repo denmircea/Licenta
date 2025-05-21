@@ -24,19 +24,19 @@ namespace Backend.Controllers
         public IActionResult Login([FromBody] LoginRequest request)
         {
             // Validate the request
-            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
             {
                 return BadRequest("Email and password are required.");
             }
             
-           var user = _accountServices.Login(request.Email, request.Password);
+           var user = _accountServices.Login(request.Username, request.Password);
             if (user == null)
             {
                 return Unauthorized("Invalid email or password.");
             }
            // return bearer token for this user
            var bearerToken = _accountServices.GenerateAccessToken(user);
-            return Ok(bearerToken);
+            return Ok(new { Token = bearerToken,User = user });
         }
 
         [Authorize]
