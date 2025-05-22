@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Controllers
 {
     [Authorize]
-    public class ProductController: ControllerBase
+    public class ProductController: BaseController
     {
         private readonly IProductServices _productServices;
         public ProductController(IProductServices productServices)

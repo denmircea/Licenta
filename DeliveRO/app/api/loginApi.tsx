@@ -6,7 +6,7 @@ export async function login(username: string, password: string) {
         const data = await apiUtils.postCall({
             username,
             password,
-        }, '/login');
+        }, '/login/login');
       
 
         return data.body;

@@ -34,6 +34,7 @@ var appSettingsSection = builder.Configuration.GetSection("ApiOptions");
 var appSettings = appSettingsSection.Get<ApiOptions>();
 var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 builder.Services.Configure<ApiOptions>(appSettingsSection);
+
 //Configure JWT Token Authentication
 var tokenValidationParameter = new TokenValidationParameters
 {
@@ -47,6 +48,7 @@ var tokenValidationParameter = new TokenValidationParameters
     // set clock skew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
     ClockSkew = TimeSpan.Zero
 };
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(tokenValidationParameter);
 builder.Services.AddAuthentication(options =>
 {
@@ -77,5 +79,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();

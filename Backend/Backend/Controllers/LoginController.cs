@@ -9,9 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace Backend.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class LoginController : ControllerBase
+    public class LoginController : BaseController
     {
         private readonly IAccountServices _accountServices;
         
@@ -40,10 +38,12 @@ namespace Backend.Controllers
             return Ok(new { Token = bearerToken,User = user });
         }
 
-        [Authorize(Roles = CoreEnums.UserType.BackOfficeAdmin.ToString())]
+        [Authorize(Roles = CoreEnums.UserTypeNames.BackOfficeAdmin)]
         [HttpGet]
         public IActionResult Get()
         {
+            /// get the token from request
+            var token = GetRequestUserID();
             return Ok("Login controller is working.");
         }
     }

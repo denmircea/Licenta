@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseApiUrl = 'https://b2a5-86-120-52-229.ngrok-free.app';
+const baseApiUrl = 'https://b2a5-86-120-52-229.ngrok-free.app/api';
 
 const axiosInstance = axios.create({
     paramsSerializer: (params) => {

@@ -1,6 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Interfaces;
 using Backend.Models;
+using Backend.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -52,8 +53,18 @@ namespace Backend.Services
             }
         }
 
+        private string GetRoleAuthorizationName(int? role)
+        {
+            CoreEnums.UserType userType = (CoreEnums.UserType)(role ?? 0);
+            return userType.ToString();
+        }
+
         public string GenerateAccessToken(User user)
         {
+            if(user == null)
+            {
+                return null;
+            }
 
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -61,9 +72,9 @@ namespace Backend.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("ID", user?.ID.ToString() ?? ""),
-                    new Claim("Name", user?.FirstName + " " + user?.LastName ?? ""),
-                    new Claim(ClaimTypes.Role, 1.ToString()),
+                    new Claim("ID", user.ID.ToString() ?? ""),
+                    new Claim("Name", user.FirstName + " " + user.LastName ?? ""),
+                    new Claim(ClaimTypes.Role, GetRoleAuthorizationName(user.UserType)),
                 }),
                 Expires = DateTime.UtcNow.AddHours(_appSettings.HoursUntilExpiration),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),

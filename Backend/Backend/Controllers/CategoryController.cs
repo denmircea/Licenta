@@ -1,14 +1,17 @@
-﻿using Backend.Interfaces;
+﻿using Backend.Data;
+using Backend.Interfaces;
+using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-    public class CategoryController: ControllerBase
+    public class CategoryController: BaseController
     {
         private readonly ICategoryServices _categoryServices;
-        public CategoryController(ICategoryServices categoryServices)
+        public CategoryController(ApplicationDbContext context)
         {
-            _categoryServices = categoryServices;
+            _categoryServices = new CategoryServices(context);
         }
 
         [HttpGet]
