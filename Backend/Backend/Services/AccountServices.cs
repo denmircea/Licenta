@@ -62,6 +62,7 @@ namespace Backend.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("ID", user?.ID.ToString() ?? ""),
+                    new Claim("Name", user?.FirstName + " " + user?.LastName ?? ""),
                     new Claim(ClaimTypes.Role, 1.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(_appSettings.HoursUntilExpiration),
