@@ -61,7 +61,8 @@ namespace Backend.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("ID", user.ID.ToString()),
+                    new Claim("ID", user?.ID.ToString() ?? ""),
+                    new Claim(ClaimTypes.Role, 1.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(_appSettings.HoursUntilExpiration),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),

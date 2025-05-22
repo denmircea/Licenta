@@ -1,6 +1,7 @@
 using Backend.Data;
 using Backend.Interfaces;
 using Backend.Services;
+using Backend.Utils;
 using Backend.Wrappers.Login;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ namespace Backend.Controllers
             return Ok(new { Token = bearerToken,User = user });
         }
 
-        [Authorize]
+        [Authorize(Roles = CoreEnums.UserType.BackOfficeAdmin.ToString())]
         [HttpGet]
         public IActionResult Get()
         {
