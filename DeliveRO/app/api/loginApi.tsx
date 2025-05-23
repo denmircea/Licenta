@@ -1,15 +1,15 @@
 import * as apiUtils from './apiUtils';
 
+
+
 export async function login(username: string, password: string) {
     try {
-        console.log('Logging in with username:', username);
-        const data = await apiUtils.postCall({
-            username,
-            password,
-        }, '/login/login');
-      
-
-        return data.body;
+        const response = await apiUtils.postCall(
+            { username, password, },
+            '/login/login'
+        );
+        console.log(response);
+        return response.data;
     } catch (error) {
         throw error;
     }

@@ -5,9 +5,10 @@ import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginScreen } from './components/Login';
 import { onLogin, selectAuth } from './store/authReducer';
+import AdminNavigator from './ViewAdmin/AdminNavigator';
 
 // Dummy screens
-const HomeScreen = () => {
+export const HomeScreen = () => {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>Home Screen</Text>
@@ -24,7 +25,7 @@ const useAuth = () => {
 };
 
 const AuthStack = createNativeStackNavigator();
-const AppStack = createNativeStackNavigator();
+export const AppStack = createNativeStackNavigator();
 
 function AuthNavigator(authProps: any) {
     return (
@@ -61,15 +62,6 @@ function DeliveryNavigator() {
         <AppStack.Navigator>
             <AppStack.Screen name="DeliveryHome" component={HomeScreen} />
             {/* Add other delivery screens here */}
-        </AppStack.Navigator>
-    );
-}
-
-function AdminNavigator() {
-    return (
-        <AppStack.Navigator>
-            <AppStack.Screen name="AdminHome" component={HomeScreen} />
-            {/* Add other admin screens here */}
         </AppStack.Navigator>
     );
 }
