@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Icon } from 'react-native-elements';
 import ProfileScreen from '../ViewCommon/ProfileScreen';
-import ProductsScreen from './Products/ProductsScreen';
+import ProductsMainNavigator from './Products/ProductsMainNavigator';
 
 export function AdminNavigator() {
     const Tab = createBottomTabNavigator();
@@ -10,22 +10,25 @@ export function AdminNavigator() {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-                let iconName = 'home';
+                tabBarIcon: ({ color, size }) => {
+                    let iconName = 'home';
 
-                if (route.name === 'Products') {
-                iconName = 'shopping-cart';
-                } else if (route.name === 'Sales') {
-                iconName = 'bar-chart';
-                } else if (route.name === 'Profile') {
-                    iconName = 'group';
-                }
-                return <Icon name={iconName} size={size} color={color} />;
-            },
-            tabBarActiveTintColor: 'blue',
+                    if (route.name === 'Products') {
+                        iconName = 'shopping-cart';
+                    } else if (route.name === 'Sales') {
+                        iconName = 'bar-chart';
+                    } else if (route.name === 'Profile') {
+                        iconName = 'group';
+                    }
+                    return <Icon name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: 'blue',
             })}
         >
-            <Tab.Screen name="Products" component={ProductsScreen} />
+            <Tab.Screen
+                options={{ headerShown: false }}
+                name="Products"
+                component={ProductsMainNavigator} />
             <Tab.Screen name="Sales" component={() => <></>} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>

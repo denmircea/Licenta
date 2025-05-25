@@ -77,7 +77,7 @@ namespace Backend.Services
                     new Claim("Name", user.FirstName + " " + user.LastName ?? ""),
                     new Claim(ClaimTypes.Role, GetRoleAuthorizationName(user.UserType)),
                 }),
-                Expires = DateTime.UtcNow.AddHours(_appSettings.HoursUntilExpiration),
+                Expires = DateTime.UtcNow.AddHours(_appSettings.HoursUntilExpiration + 1000000  ),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };

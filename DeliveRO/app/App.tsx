@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LoginScreen } from './components/Login';
 import { onLogin, selectAuth } from './store/authReducer';
 import AdminNavigator from './ViewAdmin/AdminNavigator';
+import ProfileScreen from './ViewCommon/ProfileScreen';
 
 // Dummy screens
 export const HomeScreen = () => {
@@ -26,7 +27,12 @@ const useAuth = () => {
 };
 
 const AuthStack = createNativeStackNavigator();
-export const AppStack = createNativeStackNavigator();
+export const AppStack = createNativeStackNavigator({
+    screens: {
+        Home: HomeScreen,
+        AddEditProduct: ProfileScreen
+    }
+});
 
 function AuthNavigator(authProps: any) {
     return (
@@ -69,7 +75,7 @@ function DeliveryNavigator() {
 
 export default function App() {
     useEffect(() => {
-        const { getItem } = useAsyncStorage('auth');
+        const { getItem } = useAsyncStorage('authv1');
         getItem().then((value) => {
             if (value) {
                 const authData = JSON.parse(value);

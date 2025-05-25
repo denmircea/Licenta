@@ -21,7 +21,7 @@ const auth = createSlice({
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             console.log('Login successful:', action.payload);
-            useAsyncStorage('auth').setItem(JSON.stringify({
+            useAsyncStorage('authv1').setItem(JSON.stringify({
                 token: action.payload.token,
                 id: action.payload.id,
                 userType: action.payload.userType,

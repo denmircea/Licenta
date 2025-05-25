@@ -43,10 +43,8 @@ var tokenValidationParameter = new TokenValidationParameters
     IssuerSigningKey = new SymmetricSecurityKey(key),
     ValidateIssuer = false,
     ValidateAudience = false,
-    RequireExpirationTime = true,
-    ValidateLifetime = true,
     // set clock skew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-    ClockSkew = TimeSpan.Zero
+    //ClockSkew = TimeSpan.Zero
 };
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(tokenValidationParameter);

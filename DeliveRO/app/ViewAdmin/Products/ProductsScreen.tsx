@@ -1,6 +1,7 @@
 import { retrieveCategories } from '@/app/api/categoriesApi';
 import { retrieveAllProducts } from '@/app/api/productsApi';
 import InlineDropdown from '@/app/components/Dropdown';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -18,12 +19,14 @@ type Product = {
     description: string;
 };
 
-const ProductsScreen: React.FC = () => {
+
+const ProductsScreen: React.FC = (props) => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
-
+    const [productData, setProductData] = useState<Product | null>(null);
+    const ProductsNavigator = createNativeStackNavigator();
     useEffect(() => {
         // Simulate fetching data
         const fetchData = async () => {
@@ -31,14 +34,14 @@ const ProductsScreen: React.FC = () => {
             const productsData: Product[] = await retrieveAllProducts();
             setCategories(categoriesData);
             setProducts(productsData);
-            setSelectedCategory(categoriesData[0]?.id || '');
+        //    setSelectedCategory(categoriesData[0]?.id || '');
             setLoading(false);
         };
         fetchData();
     }, []);
 
     const handleCategoryChange = (item: any) => {
-        setSelectedCategory(item.categoryId);
+        setSelectedCategory(item);
     };
 
     const renderProductCard = ({ item }: { item: Product }) => (
@@ -60,7 +63,7 @@ const ProductsScreen: React.FC = () => {
     const filteredProducts = products.filter(
         (product) => product.categoryId === selectedCategory
     );
-
+   console.log(selectedCategory, 'selectedCategory');
     return (
         <View style={styles.container}>
             <View style={[pickerStyles.container, { flexDirection: 'row', alignItems: 'center', marginBottom: 16 }]}>
@@ -70,25 +73,43 @@ const ProductsScreen: React.FC = () => {
                         onSelect={handleCategoryChange}
                     />
                 </View>
-                <TouchableOpacity
-                    style={{
-                        marginLeft: 12,
-                        backgroundColor: '#007bff',
-                        borderRadius: 18,
-                        width: 36,
-                        height: 36,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        display: 'flex',
-                    }}
-                    onPress={() => {
-                        // Handle add new product action
-                    }}
-                >
-                    <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', }}>
-                        <Text style={{ color: '#fff', fontSize: 36, fontWeight: 'bold', lineHeight: 36, textAlign: 'center', paddingBottom: 9 }}>+</Text>
-                    </View>
-                </TouchableOpacity>
+                {(selectedCategory?.length > 0) && (
+                    <TouchableOpacity
+                        style={{
+                            marginLeft: 12,
+                            backgroundColor: '#007bff',
+                            borderRadius: 18,
+                            width: 36,
+                            height: 36,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            display: 'flex',
+                        }}
+
+                        onPress={() => {
+                            // open a modal for add/edit product
+                            const newProduct: Product = {
+                                id: null,
+                                name: '',
+                                categoryId: selectedCategory,
+                                category: categories.find(cat => cat.id === selectedCategory)?.name || '',
+                                price: 0,
+                                description: '',
+                            };
+                            // Navigate to add product screen
+                            // Assuming you're using React Navigation
+                            // and have access to the navigation prop
+                            setProductData(newProduct);
+                            console.log(newProduct);
+                            props.navigation.navigate('AddEditProduct', { product: newProduct });
+
+                        }}
+                    >
+                        <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', }}>
+                            <Text style={{ color: '#fff', fontSize: 36, fontWeight: 'bold', lineHeight: 36, textAlign: 'center', paddingBottom: 9 }}>+</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
             </View>
             <FlatList
                 data={filteredProducts}
