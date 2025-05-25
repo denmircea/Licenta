@@ -6,5 +6,6 @@ namespace Backend.Interfaces
     {
         public User Login(string email, string password);
         public string GenerateAccessToken(User user);
+        public User RetrieveUserProfile(Guid userID);
     }
 }

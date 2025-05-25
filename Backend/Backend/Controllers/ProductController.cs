@@ -1,16 +1,24 @@
-﻿using Backend.Interfaces;
+﻿using Backend.Data;
+using Backend.Interfaces;
+using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-    [Authorize]
     public class ProductController: BaseController
     {
         private readonly IProductServices _productServices;
-        public ProductController(IProductServices productServices)
+        public ProductController(ApplicationDbContext context)
         {
-            _productServices = productServices;
+            _productServices = new ProductServices(context);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllProducts()
+        {
+            var products = _productServices.GetAllProducts();
+            return Ok(products);
         }
 
         [HttpGet]

@@ -1,6 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Interfaces;
 using Backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services
 {
@@ -27,6 +28,11 @@ namespace Backend.Services
             {
                 throw new Exception("Product not found");
             }
+            return result;
+        }
+        public List<Product> GetAllProducts()
+        {
+            var result = Context.Products.AsNoTracking().ToList();
             return result;
         }
     }

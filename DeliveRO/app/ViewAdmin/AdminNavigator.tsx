@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Icon } from 'react-native-elements';
+import ProfileScreen from '../ViewCommon/ProfileScreen';
 import ProductsScreen from './Products/ProductsScreen';
 
 export function AdminNavigator() {
@@ -10,29 +11,23 @@ export function AdminNavigator() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
             tabBarIcon: ({ color, size }) => {
-                let iconName;
+                let iconName = 'home';
 
                 if (route.name === 'Products') {
                 iconName = 'shopping-cart';
                 } else if (route.name === 'Sales') {
                 iconName = 'bar-chart';
                 } else if (route.name === 'Profile') {
-                    iconName = 'user';
+                    iconName = 'group';
                 }
-                // Using react-native-vector-icons/Feather as an example
-                // Make sure to install: npm install react-native-vector-icons
-                // And import at the top:
-                // import Feather from 'react-native-vector-icons/Feather';
-                // Replace Feather with your preferred icon set if needed
-
-                // @ts-ignore
                 return <Icon name={iconName} size={size} color={color} />;
             },
+            tabBarActiveTintColor: 'blue',
             })}
         >
             <Tab.Screen name="Products" component={ProductsScreen} />
             <Tab.Screen name="Sales" component={() => <></>} />
-            <Tab.Screen name="Profile" component={() => <></>} />
+            <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
     );
 }

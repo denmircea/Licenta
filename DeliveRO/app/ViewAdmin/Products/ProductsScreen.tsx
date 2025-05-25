@@ -1,21 +1,9 @@
 import { retrieveCategories } from '@/app/api/categoriesApi';
+import { retrieveAllProducts } from '@/app/api/productsApi';
 import InlineDropdown from '@/app/components/Dropdown';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
 
-export const Dropdown = () => {
-    return (
-        <RNPickerSelect
-            onValueChange={(value) => console.log(value)}
-            items={[
-                { label: 'Football', value: 'football' },
-                { label: 'Baseball', value: 'baseball' },
-                { label: 'Hockey', value: 'hockey' },
-            ]}
-        />
-    );
-};
 
 type Category = {
     id: string;
@@ -40,11 +28,7 @@ const ProductsScreen: React.FC = () => {
         // Simulate fetching data
         const fetchData = async () => {
             const categoriesData: Category[] = await retrieveCategories();
-            const productsData: Product[] = [
-                { id: '101', name: 'Laptop1', categoryId: '1', price: 1200, description: 'A powerful laptop.' },
-                { id: '102', name: 'Novel', categoryId: '2', price: 20, description: 'A best-selling novel.' },
-                { id: '103', name: 'T-Shirt', categoryId: '3', price: 15, description: 'Comfortable cotton t-shirt.' },
-            ];
+            const productsData: Product[] = await retrieveAllProducts();
             setCategories(categoriesData);
             setProducts(productsData);
             setSelectedCategory(categoriesData[0]?.id || '');
@@ -74,17 +58,37 @@ const ProductsScreen: React.FC = () => {
     }
 
     const filteredProducts = products.filter(
-        (product) => 1 === 1 || product.categoryId === selectedCategory
+        (product) => product.categoryId === selectedCategory
     );
 
     return (
         <View style={styles.container}>
-            <View style={pickerStyles.container}>
-                <InlineDropdown
-                    data={categories}
-                    onSelect={handleCategoryChange}
-                    defaultNoOption="Select a category"
-                />
+            <View style={[pickerStyles.container, { flexDirection: 'row', alignItems: 'center', marginBottom: 16 }]}>
+                <View style={{ flex: 1 }}>
+                    <InlineDropdown
+                        data={categories}
+                        onSelect={handleCategoryChange}
+                    />
+                </View>
+                <TouchableOpacity
+                    style={{
+                        marginLeft: 12,
+                        backgroundColor: '#007bff',
+                        borderRadius: 18,
+                        width: 36,
+                        height: 36,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        display: 'flex',
+                    }}
+                    onPress={() => {
+                        // Handle add new product action
+                    }}
+                >
+                    <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', }}>
+                        <Text style={{ color: '#fff', fontSize: 36, fontWeight: 'bold', lineHeight: 36, textAlign: 'center', paddingBottom: 9 }}>+</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={filteredProducts}
@@ -114,7 +118,8 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 8,
         marginBottom: 12,
-        elevation: 2,
+        elevation: 0,
+        zIndex: 0,
     },
     productName: { fontSize: 18, fontWeight: 'bold' },
     centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },

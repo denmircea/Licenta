@@ -14,3 +14,15 @@ export async function login(username: string, password: string) {
         throw error;
     }
 }
+
+export async function getCurrentUserProfile() {
+    try {
+        const response = await apiUtils.getCall(
+            null,
+            '/login/RetrieveUserProfile'
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

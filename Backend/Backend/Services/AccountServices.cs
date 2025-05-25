@@ -3,6 +3,7 @@ using Backend.Interfaces;
 using Backend.Models;
 using Backend.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -83,6 +84,11 @@ namespace Backend.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
+        }
+
+        public User RetrieveUserProfile(Guid userID)
+        {
+            return Context.Users.AsNoTracking().Where(f => f.ID == userID).FirstOrDefault();
         }
     }
 }

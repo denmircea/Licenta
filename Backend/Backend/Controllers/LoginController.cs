@@ -46,5 +46,12 @@ namespace Backend.Controllers
             var token = GetRequestUserID();
             return Ok("Login controller is working.");
         }
+
+        [HttpGet]
+        public IActionResult RetrieveUserProfile()
+        {
+            var userID = GetRequestUserID();
+            return Ok(_accountServices.RetrieveUserProfile(userID));
+        }
     }
 }

@@ -1,6 +1,7 @@
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { Text } from '@react-navigation/elements';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginScreen } from './components/Login';
@@ -67,6 +68,19 @@ function DeliveryNavigator() {
 }
 
 export default function App() {
+    useEffect(() => {
+        const { getItem } = useAsyncStorage('auth');
+        getItem().then((value) => {
+            if (value) {
+                const authData = JSON.parse(value);
+                console.log('Auth data from storage:', authData);
+                // Dispatch login action to Redux store using useDispatch
+                dispatch(onLogin({ ...authData }));
+            } else {
+                console.log('No auth data found in storage');
+            }
+        });
+    }, []);
     const userType = useSelector(selectAuth)?.userType;
     const dispatch = useDispatch();
 

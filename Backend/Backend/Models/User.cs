@@ -28,5 +28,6 @@ namespace Backend.Models
         public DateTime ModifiedOn { get; set; }
         [ForeignKey("UserType")]
         public int UserType { get; set; } = 0;
+        public string? Image { get; set; }
     }
 }

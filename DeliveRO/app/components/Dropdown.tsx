@@ -1,43 +1,49 @@
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
 const InlineDropdown = ({ data, onSelect, defaultNoOption }) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [selectedValue, setSelectedValue] = useState(null);
-    const toggleDropdown = () => setDropdownVisible(!isDropdownVisible);
+
     const handleSelect = (item) => {
         setSelectedValue(item.name);
         onSelect(item.id);
         setDropdownVisible(false);
     };
+
     return (
-        <>
-            <View style={styles.container}>
-                <TouchableOpacity style={styles.button} onPress={toggleDropdown}>
-                    <Text>
-                        {selectedValue || defaultNoOption || "Select an option"}{" "}
-                    </Text>
-                </TouchableOpacity>
-                {isDropdownVisible && (
-                    <View style={styles.dropdown}>
-                        <FlatList
-                            data={data}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    onPress={() => handleSelect(item)}
-                                >
-                                    <Text style={styles.optionText}>{item.name}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </View>
-                )}
-            </View>
-        </>
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.button} onPress={() => setDropdownVisible(true)}>
+                <Text>
+                    {selectedValue || defaultNoOption || "Select an option"}{" "}
+                </Text>
+            </TouchableOpacity>
+            <Modal
+                visible={isDropdownVisible}
+                transparent
+                animationType="fade"
+                onRequestClose={() => setDropdownVisible(false)}
+            >
+                <TouchableWithoutFeedback onPress={() => setDropdownVisible(false)}>
+                    <View style={styles.modalOverlay} />
+                </TouchableWithoutFeedback>
+                <View style={styles.modalDropdown}>
+                    <FlatList
+                        data={data}
+                        style={{border: '1px solid rgba(0, 0, 0, 1)'}}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity onPress={() => handleSelect(item)} style={{ backgroundColor: item.name === selectedValue ? 'rgba(0, 0, 0, 0.1)' : 'transparent' }}>
+                                <Text style={styles.optionText}>{`${item.name}${item.name === selectedValue ? ' (Selected)' : ''}`}</Text>
+                            </TouchableOpacity>
+                        )}
+                    />
+                </View>
+            </Modal>
+        </View>
     );
 };
+
 const styles = StyleSheet.create({
     container: {
         margin: 20,
@@ -48,33 +54,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
         borderRadius: 5,
     },
-    buttonText: {
-        color: "white",
-        textAlign: "center",
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.1)',
     },
-    dropdown: {
+    modalDropdown: {
         position: "absolute",
-        top: "100%",
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        marginTop: 5,
+        top: 100, // You may want to calculate this dynamically
+        left: 20,
+        right: 20,
         backgroundColor: "white",
         borderRadius: 5,
-        elevation: 3,
-        shadowColor: "#000",
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-        shadowOffset: { width: 0, height: 2 },
-    },
-    option: {
-        padding: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: "#ddd",
+        elevation: 10,
+        maxHeight: 300,
+        zIndex: 9999,
+        alignSelf: "center",
     },
     optionText: {
         fontSize: 16,
-        padding: 3,
+        padding: 15,
         paddingLeft: 10,
     },
 });
