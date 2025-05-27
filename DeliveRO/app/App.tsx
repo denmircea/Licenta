@@ -8,6 +8,7 @@ import { LoginScreen } from './components/Login';
 import { onLogin, selectAuth } from './store/authReducer';
 import AdminNavigator from './ViewAdmin/AdminNavigator';
 import ProfileScreen from './ViewCommon/ProfileScreen';
+import UserNavigator from './ViewUser/UserNavigator';
 
 // Dummy screens
 export const HomeScreen = () => {
@@ -38,6 +39,9 @@ function AuthNavigator(authProps: any) {
     return (
         <AuthStack.Navigator>
             <AuthStack.Screen
+                options={{
+                    headerShown: false,
+                }}
                 name="Login"
 
                 children={(props) => (
@@ -55,14 +59,7 @@ function AuthNavigator(authProps: any) {
 
 
 
-function UserNavigator() {
-    return (
-        <AppStack.Navigator>
-            <AppStack.Screen name="UserHome" component={HomeScreen} />
-            {/* Add other user screens here */}
-        </AppStack.Navigator>
-    );
-}
+
 
 function DeliveryNavigator() {
     return (
@@ -75,7 +72,7 @@ function DeliveryNavigator() {
 
 export default function App() {
     useEffect(() => {
-        const { getItem } = useAsyncStorage('authv1');
+        const { getItem } = useAsyncStorage(`${new Date().getUTCDate()}-auth`);
         getItem().then((value) => {
             if (value) {
                 const authData = JSON.parse(value);

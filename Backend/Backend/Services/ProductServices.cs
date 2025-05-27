@@ -35,5 +35,28 @@ namespace Backend.Services
             var result = Context.Products.AsNoTracking().ToList();
             return result;
         }
+
+        public Guid SaveProduct(Product product)
+        {
+            if(product.ID == Guid.Empty)
+            {
+                product.ID = new Guid();
+                Context.Products.Add(product);
+            }
+            else
+            {
+                Context.Products.Update(product);
+            }
+            try
+            {
+                Context.SaveChanges();
+                return product.ID;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (ex) as needed
+                return Guid.Empty;
+            }
+        }
     }
 }

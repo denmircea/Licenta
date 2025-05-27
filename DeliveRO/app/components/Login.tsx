@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native";
+import { Icon } from "react-native-elements";
 import { login } from "../api/loginApi";
 
 export const LoginScreen = (props: any) => {
@@ -24,7 +25,7 @@ export const LoginScreen = (props: any) => {
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#ddfae5' }}>
+        <View style={{ flex: 1, backgroundColor: '#A7C7E7' }}>
             <KeyboardAvoidingView
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -42,13 +43,22 @@ export const LoginScreen = (props: any) => {
                     alignItems: 'center',
                     alignSelf: 'center',
                 }}>
+                    <Icon
+                        name="fastfood"
+                        type="material"
+                        color="#007AFF"
+                        size={40}
+                        style={{ lineHeight: 24, marginTop: 5 }}
+                    ></Icon>
                     <Text style={{
                         fontSize: 24,
                         fontWeight: 'bold',
                         marginBottom: 24,
                         color: '#007AFF',
                         textAlign: 'center',
+                        fontFamily: 'Cochin',
                     }}>
+
                         DeliveRO
                     </Text>
                     <TextInput

@@ -1,20 +1,16 @@
+import { saveProduct } from '@/app/api/productsApi';
 import * as ImagePicker from 'expo-image-picker'; // Ensure you have expo-image-picker installed
 import React, { useState } from 'react';
 import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Image } from 'react-native-elements';
+import { Product } from './ProductsScreen';
 
-type Product = {
-    id?: string;
-    name: string;
-    price: string;
-    description: string;
-    stock: string;
-};
+
 
 type AddEditProductScreenProps = {
     route: {
-        params?: {
-            product?: Product;
+        params: {
+            product: Product;
         };
     };
     navigation: any;
@@ -34,24 +30,21 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({ route, navi
             title: editing ? 'Edit product' : 'Add product',
         });
     }, [navigation, editing]);
-    const [product, setProduct] = useState<Product>({
-        name: '',
-        price: '',
-        description: '',
-        stock: '',
-        ...(route.params?.product || {}),
-    });
+    const [product, setProduct] = useState<Product>(route.params?.product);
     console.log(route);
 
     const handleChange = (field: keyof Product, value: string) => {
         setProduct(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!product.name || !product.price || !product.stock) {
             Alert.alert('Eroare', 'Completează toate câmpurile obligatorii.');
             return;
         }
+
+        const addedProduct = await saveProduct(product)
+
         // TODO: Add API call or state update logic here
         Alert.alert('Succes', editing ? 'Produsul a fost actualizat.' : 'Produsul a fost adăugat.');
         navigation.goBack();
@@ -114,20 +107,28 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({ route, navi
                 <TextInput
                     style={styles.input}
                     placeholder="Price"
-                    value={product.price}
-                    onChangeText={text => handleChange('price', text)}
+                    value={product.price?.toString() || ''}
+                    onChangeText={text => {
+                        const num = text.replace(/[^0-9.]/g, '');
+                        handleChange('price', num);
+                    }}
                     keyboardType="numeric"
                     returnKeyType="next"
+                    inputMode="decimal"
                 />
             </Field>
             <Field label="Stock">
                 <TextInput
                     style={styles.input}
                     placeholder="Stock"
-                    value={product.stock}
-                    onChangeText={text => handleChange('stock', text)}
+                    value={product.stock?.toString() || ''}
+                    onChangeText={text => {
+                        const num = text.replace(/[^0-9]/g, '');
+                        handleChange('stock', num);
+                    }}
                     keyboardType="numeric"
                     returnKeyType="next"
+                    inputMode="numeric"
                 />
             </Field>
             <Field label="Description">

@@ -1,6 +1,7 @@
 import { retrieveCategories } from '@/app/api/categoriesApi';
 import { retrieveAllProducts } from '@/app/api/productsApi';
 import InlineDropdown from '@/app/components/Dropdown';
+import { useIsFocused } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -11,12 +12,18 @@ type Category = {
     name: string;
 };
 
-type Product = {
+export type Product = {
     id: string;
     name: string;
-    categoryId: string;
-    price: number;
     description: string;
+    categoryID: string;
+    price: number;
+    image: string | null;
+    createdBy?: string;
+    createdOn?: string;
+    modifiedBy?: string;
+    modifiedOn?: string;
+    stock: number,
 };
 
 
@@ -34,22 +41,63 @@ const ProductsScreen: React.FC = (props) => {
             const productsData: Product[] = await retrieveAllProducts();
             setCategories(categoriesData);
             setProducts(productsData);
-        //    setSelectedCategory(categoriesData[0]?.id || '');
+            //    setSelectedCategory(categoriesData[0]?.id || '');
             setLoading(false);
         };
         fetchData();
     }, []);
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused) {
+            setLoading(true);
+            const fetchData = async () => {
+                const categoriesData: Category[] = await retrieveCategories();
+                const productsData: Product[] = await retrieveAllProducts();
+                setCategories(categoriesData);
+                setProducts(productsData);
+                setLoading(false);
+            };
+            fetchData();
+        }
+    }, [isFocused]);
 
     const handleCategoryChange = (item: any) => {
         setSelectedCategory(item);
     };
 
     const renderProductCard = ({ item }: { item: Product }) => (
-        <TouchableOpacity style={styles.card} onPress={() => {/* Navigate to edit screen or open modal */ }}>
-            <Text style={styles.productName}>{item.name}</Text>
-            <Text>{item.description}</Text>
-            <Text>Price: ${item.price}</Text>
-        </TouchableOpacity>
+        <View style={[styles.card, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}>
+            <TouchableOpacity
+                style={{ flex: 1 }}
+                onPress={() => {
+                    // Navigate to edit screen or open modal
+                }}
+            >
+                <Text style={styles.productName}>{item.name}</Text>
+                <Text>{item.description.substring(0, 30)}</Text>
+                <Text>Price: ${item.price}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={{
+                    marginLeft: 12,
+                    backgroundColor: '#007bff',
+                    borderRadius: 18,
+                    width: 36,
+                    height: 36,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                onPress={() => {
+                    // Edit button action: navigate to edit screen or open modal
+                    setProductData(item);
+                    props.navigation.navigate('AddEditProduct', { product: item });
+                }}
+            >
+                <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>✎</Text>
+            </TouchableOpacity>
+        </View>
     );
 
     if (loading) {
@@ -59,11 +107,11 @@ const ProductsScreen: React.FC = (props) => {
             </View>
         );
     }
-
     const filteredProducts = products.filter(
-        (product) => product.categoryId === selectedCategory
+        (product) => product.categoryID === selectedCategory
     );
-   console.log(selectedCategory, 'selectedCategory');
+    console.log(products, filteredProducts);
+    console.log(selectedCategory, 'selectedCategory');
     return (
         <View style={styles.container}>
             <View style={[pickerStyles.container, { flexDirection: 'row', alignItems: 'center', marginBottom: 16 }]}>
@@ -71,6 +119,7 @@ const ProductsScreen: React.FC = (props) => {
                     <InlineDropdown
                         data={categories}
                         onSelect={handleCategoryChange}
+                        selectedOptionInitial={categories.find(cat => cat.id === selectedCategory)?.name || ''}
                     />
                 </View>
                 {(selectedCategory?.length > 0) && (
@@ -89,16 +138,16 @@ const ProductsScreen: React.FC = (props) => {
                         onPress={() => {
                             // open a modal for add/edit product
                             const newProduct: Product = {
-                                id: null,
+                                id: '',
                                 name: '',
-                                categoryId: selectedCategory,
+                                description: '',
+                                categoryID: selectedCategory,
                                 category: categories.find(cat => cat.id === selectedCategory)?.name || '',
                                 price: 0,
-                                description: '',
+                                image: '',
+                                stock: 0,
                             };
-                            // Navigate to add product screen
-                            // Assuming you're using React Navigation
-                            // and have access to the navigation prop
+
                             setProductData(newProduct);
                             console.log(newProduct);
                             props.navigation.navigate('AddEditProduct', { product: newProduct });

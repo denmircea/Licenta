@@ -7,7 +7,7 @@ namespace Backend.Interfaces
         public Product GetProductByID(Guid id);
         public List<Product> GetProductsByCategoryID(Guid categoryId);
         public List<Product> GetAllProducts();
-
+        public Guid SaveProduct(Product product);
 
     }
 }

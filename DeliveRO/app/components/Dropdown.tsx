@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
-const InlineDropdown = ({ data, onSelect, defaultNoOption }) => {
+const InlineDropdown = ({ data, onSelect, defaultNoOption, selectedOptionInitial }) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [selectedValue, setSelectedValue] = useState(null);
 
+    useEffect(() => {
+        if(selectedOptionInitial) {
+            setSelectedValue(selectedOptionInitial);
+        }
+    },[])
     const handleSelect = (item) => {
         setSelectedValue(item.name);
         onSelect(item.id);

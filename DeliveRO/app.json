@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "DeliveRO",
-    "slug": "DeliveRO",
+    "slug": "delivero",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,6 +37,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "570b973c-749e-4f80-a464-df1ad6c3217b"
+      }
+    },
+    "owner": "denmircea"
   }
 }

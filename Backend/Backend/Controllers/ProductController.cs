@@ -1,5 +1,6 @@
 ﻿using Backend.Data;
 using Backend.Interfaces;
+using Backend.Models;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,17 @@ namespace Backend.Controllers
                 return NotFound("Product not found.");
             }
             return Ok(product);
+        }
+
+        [HttpPost]
+        public IActionResult SaveProduct([FromBody] Product product )
+        {
+          var productID = _productServices.SaveProduct(product);
+            if (productID == Guid.Empty)
+            {
+                return BadRequest("Failed to save product.");
+            }
+            return Ok(new { ProductID = productID });
         }
 
     }
