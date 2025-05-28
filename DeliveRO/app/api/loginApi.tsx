@@ -8,7 +8,6 @@ export async function login(username: string, password: string) {
             { username, password, },
             '/login/login'
         );
-        console.log(response);
         return response.data;
     } catch (error) {
         throw error;

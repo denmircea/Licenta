@@ -20,7 +20,6 @@ const auth = createSlice({
             state.userType = action.payload.userType;
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
-            console.log('Login successful:', action.payload);
             useAsyncStorage((`${new Date().getUTCDate()}-auth`)).setItem(JSON.stringify({
                 token: action.payload.token,
                 id: action.payload.id,

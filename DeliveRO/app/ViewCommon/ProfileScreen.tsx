@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
-import { Button, Image, Text } from 'react-native-elements';
+import { Image, View } from 'react-native';
+import { Button, Text } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
 import { getCurrentUserProfile } from '../api/loginApi';
 import { onLogin } from '../store/authReducer';
@@ -26,10 +26,6 @@ const ProfileScreen: React.FC = () => {
             </View>
         );
     }
-    const handleLogout = () => {
-        // Add your logout logic here
-        console.log('Logout clicked');
-    };
 
     return (
         <>

@@ -76,8 +76,6 @@ export default function App() {
         getItem().then((value) => {
             if (value) {
                 const authData = JSON.parse(value);
-                console.log('Auth data from storage:', authData);
-                // Dispatch login action to Redux store using useDispatch
                 dispatch(onLogin({ ...authData }));
             } else {
                 console.log('No auth data found in storage');
@@ -106,7 +104,6 @@ export default function App() {
                 <AuthNavigator
                     onLoginSuccess={(result) => {
                         // Dispatch login action to Redux store using useDispatch
-                        console.log('Login successful22:', result);
                         dispatch(onLogin({ token: result.token, ...result.user }));
                     }}
                 />

@@ -31,7 +31,6 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({ route, navi
         });
     }, [navigation, editing]);
     const [product, setProduct] = useState<Product>(route.params?.product);
-    console.log(route);
 
     const handleChange = (field: keyof Product, value: string) => {
         setProduct(prev => ({ ...prev, [field]: value }));
@@ -66,28 +65,24 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({ route, navi
                 />
             </Field>
             <Field label="Image">
-                <View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {product.image ? (
-                        <View style={{ alignItems: 'center', marginBottom: 8 }}>
-                            <Image
-                                source={{ uri: product.image }}
-                                style={{ width: 120, height: 120, borderRadius: 8, marginBottom: 8 }}
-                                resizeMode="cover"
-                            />
-                        </View>
+                        <Image
+                            source={{ uri: `data:image/png;base64,${product.image}` }}
+                            style={{ width: 80, height: 80, borderRadius: 8, marginRight: 16 }}
+                            resizeMode="cover"
+                        />
                     ) : null}
                     <Button
                         title={product.image ? "Change Image" : "Upload Image"}
                         onPress={async () => {
-                            // Use expo-image-picker or similar library
-                            // This is a placeholder for demonstration
-                            // Replace with your image picker logic
-                            // Example with expo-image-picker:
                             const result = await ImagePicker.launchImageLibraryAsync({ base64: true });
                             if (!result.canceled) {
-                              //  handleChange('image', `data:${result.assets[0].mimeType};base64,${result.assets[0].base64}`);
+                                const base64image = result.assets[0].base64;
+                                if (base64image) {
+                                    handleChange('image', base64image);
+                                }
                             }
-                            Alert.alert('Not implemented', 'Image picker integration required.');
                         }}
                     />
                 </View>

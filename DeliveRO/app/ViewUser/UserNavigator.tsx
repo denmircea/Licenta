@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Icon } from 'react-native-elements';
 import ProfileScreen from '../ViewCommon/ProfileScreen';
+import ProductsMainNavigator from './ProductsMainNavigator';
 
 export function UserNavigator() {
     const Tab = createBottomTabNavigator();
@@ -27,7 +28,7 @@ export function UserNavigator() {
             <Tab.Screen
                 options={{ headerShown: false }}
                 name="Products"
-                component={ProfileScreen}
+                component={ProductsMainNavigator}
             />
             <Tab.Screen
                 name="Orders"

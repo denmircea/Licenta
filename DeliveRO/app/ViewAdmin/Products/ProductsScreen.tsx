@@ -1,11 +1,11 @@
 import { retrieveCategories } from '@/app/api/categoriesApi';
 import { retrieveAllProducts } from '@/app/api/productsApi';
 import InlineDropdown from '@/app/components/Dropdown';
+import { constants } from '@/app/constants/constants';
 import { useIsFocused } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type Category = {
     id: string;
@@ -70,14 +70,28 @@ const ProductsScreen: React.FC = (props) => {
     const renderProductCard = ({ item }: { item: Product }) => (
         <View style={[styles.card, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}>
             <TouchableOpacity
-                style={{ flex: 1 }}
+                style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => {
                     // Navigate to edit screen or open modal
                 }}
             >
-                <Text style={styles.productName}>{item.name}</Text>
-                <Text>{item.description.substring(0, 30)}</Text>
-                <Text>Price: ${item.price}</Text>
+
+                <View style={{ marginRight: 12 }}>
+                    <Image
+                        source={
+                            item?.image?.length > 0
+                                ? { uri: `data:image/png;base64,${item.image}` }
+                                : { uri: constants.NO_IMAGE_URL }
+                        }
+                        style={{ width: 50, height: 50, borderRadius: 8, backgroundColor: '#eee' }}
+                        resizeMode="cover"
+                    />
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Text style={styles.productName}>{item.name}</Text>
+                    <Text>{item.description.substring(0, 30)}</Text>
+                    <Text style={{color: 'green'}}>Price: {item.price} {constants.currency}</Text>
+                </View>
             </TouchableOpacity>
             <TouchableOpacity
                 style={{
@@ -107,11 +121,10 @@ const ProductsScreen: React.FC = (props) => {
             </View>
         );
     }
-    const filteredProducts = products.filter(
+    const filteredProducts = selectedCategory ? products.filter(
         (product) => product.categoryID === selectedCategory
-    );
-    console.log(products, filteredProducts);
-    console.log(selectedCategory, 'selectedCategory');
+    ) : products;
+   
     return (
         <View style={styles.container}>
             <View style={[pickerStyles.container, { flexDirection: 'row', alignItems: 'center', marginBottom: 16 }]}>
@@ -149,7 +162,6 @@ const ProductsScreen: React.FC = (props) => {
                             };
 
                             setProductData(newProduct);
-                            console.log(newProduct);
                             props.navigation.navigate('AddEditProduct', { product: newProduct });
 
                         }}

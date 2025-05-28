@@ -7,7 +7,6 @@ export async function retrieveAllProducts() {
             '/Product/GetAllProducts'
 
         );
-        console.log(response, response.data);
         return response.data;
     } catch (error) {
         throw error;
