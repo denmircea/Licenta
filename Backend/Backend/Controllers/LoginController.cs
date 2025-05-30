@@ -12,7 +12,7 @@ namespace Backend.Controllers
     public class LoginController : BaseController
     {
         private readonly IAccountServices _accountServices;
-        
+
         public LoginController(ApplicationDbContext context, IOptions<ApiOptions> options)
         {
             _accountServices = new AccountServices(context, options);
@@ -27,15 +27,15 @@ namespace Backend.Controllers
             {
                 return BadRequest("Email and password are required.");
             }
-            
-           var user = _accountServices.Login(request.Username, request.Password);
+
+            var user = _accountServices.Login(request.Username, request.Password);
             if (user == null)
             {
                 return Unauthorized("Invalid email or password.");
             }
-           // return bearer token for this user
-           var bearerToken = _accountServices.GenerateAccessToken(user);
-            return Ok(new { Token = bearerToken,User = user });
+            // return bearer token for this user
+            var bearerToken = _accountServices.GenerateAccessToken(user);
+            return Ok(new { Token = bearerToken, User = user });
         }
 
         [Authorize(Roles = CoreEnums.UserTypeNames.BackOfficeAdmin)]
@@ -52,6 +52,19 @@ namespace Backend.Controllers
         {
             var userID = GetRequestUserID();
             return Ok(_accountServices.RetrieveUserProfile(userID));
+        }
+
+        [HttpPost]
+        public IActionResult UpdateUserProfile([FromBody] UpdateUserProfileRequest request)
+        {
+            var userID = GetRequestUserID();
+            if (userID == Guid.Empty)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+            var result = _accountServices.UpdateUserProfile(request, userID);
+
+            return Ok("User profile updated successfully.");
         }
     }
 }

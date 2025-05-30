@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Icon } from 'react-native-elements';
-import ProfileScreen from '../ViewCommon/ProfileScreen';
+import { ProfileMainNavigator } from '../ViewCommon/ProfileScreen';
 import OrderDetailsScreen from './OrderDetailScreen';
 import OrdersScreen from './OrdersScreen';
 import ProductsMainNavigator from './ProductsMainNavigator';
@@ -40,7 +40,8 @@ export function UserNavigator() {
             />
             <Tab.Screen
                 name="Profile"
-                component={ProfileScreen}
+                options={{ headerShown: false }}
+                component={ProfileMainNavigator}
             />
         </Tab.Navigator>
     );

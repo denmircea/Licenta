@@ -2,6 +2,7 @@
 using Backend.Interfaces;
 using Backend.Models;
 using Backend.Utils;
+using Backend.Wrappers.Login;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -89,6 +90,28 @@ namespace Backend.Services
         public User RetrieveUserProfile(Guid userID)
         {
             return Context.Users.AsNoTracking().Where(f => f.ID == userID).FirstOrDefault();
+        }
+
+        public bool UpdateUserProfile(UpdateUserProfileRequest request, Guid userID)
+        {
+            var user = Context.Users.Where(f => f.ID == userID).FirstOrDefault();
+            if (user == null)
+            {
+                return false;
+            }
+            if (!string.IsNullOrEmpty(request.FirstName))
+            {
+                user.FirstName = request.FirstName;
+            }
+            if (!string.IsNullOrEmpty(request.LastName))
+            {
+                user.LastName = request.LastName;
+            }
+            if (!string.IsNullOrEmpty(request.Image))
+            {
+                user.Image = ImageUtils.ResizeImage(request.Image, 300, 300);
+            }
+            return Context.SaveChanges()>0;
         }
     }
 }

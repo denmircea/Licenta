@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, Button, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { placeOrder } from '../api/ordersApi';
-import CustomMapView from '../ViewCommon/Maps/CustomMapView';
 
 let MapView: any;
 
@@ -51,27 +50,10 @@ const PlaceOrderScreen: React.FC<PlaceOrderScreenProps> = ({ navigation, cart, c
                         onChangeText={setAddress}
                     />
                 </View>
-                <Text style={{ marginBottom: 8, fontWeight: 'bold' }}>Select delivery location:</Text>
-                <View style={styles.map}>
-                    {/* MapView for selecting delivery location */}
-                    <CustomMapView
-                        style={{ flex: 1, borderRadius: 8 }}
-                        initialRegion={{
-                            latitude: 44.4268,
-                            longitude: 26.1025,
-                            latitudeDelta: 0.01,
-                            longitudeDelta: 0.01,
-                        }}
-
-                        onPress={(e) => {
-                            // You can update state here to store selected location
-                            // Example: setSelectedLocation(e.nativeEvent.coordinate)
-                        }}
-                    >
-                       
-                    </CustomMapView>
+                <View style={{ flex: 1 }} />
+                <View style={{ marginBottom: 16 }}>
+                    <Button title="Place Order" onPress={handlePlaceOrder} color="#007AFF" />
                 </View>
-                <Button title="Place Order" onPress={handlePlaceOrder} color="#007AFF" />
             </View>
         </KeyboardAvoidingView>
     );

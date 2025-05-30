@@ -16,7 +16,7 @@ type AddEditProductScreenProps = {
     navigation: any;
 };
 
-const Field: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
+export const Field: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
     <View style={{ marginBottom: 16 }}>
         <Text style={{ fontWeight: 'bold', marginBottom: 4, width: 200, flex: 1 }}>{label}</Text>
         {children}

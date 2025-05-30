@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Icon } from 'react-native-elements';
-import ProfileScreen from '../ViewCommon/ProfileScreen';
+import { ProfileMainNavigator } from '../ViewCommon/ProfileScreen';
 import ProductsMainNavigator from './Products/ProductsMainNavigator';
 
 export function AdminNavigator() {
@@ -29,8 +29,15 @@ export function AdminNavigator() {
                 options={{ headerShown: false }}
                 name="Products"
                 component={ProductsMainNavigator} />
-            <Tab.Screen name="Sales" component={() => <></>} />
-            <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen
+                name="Sales"
+                component={() => <></>}
+            />
+            <Tab.Screen
+                name="Profile"
+                options={{ headerShown: false }}
+                component={ProfileMainNavigator}
+            />
         </Tab.Navigator>
     );
 }

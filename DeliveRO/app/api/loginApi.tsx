@@ -25,3 +25,15 @@ export async function getCurrentUserProfile() {
         throw error;
     }
 }
+
+export async function updateUserProfile(data: any) {
+    try {
+        const response = await apiUtils.postCall(
+            data,
+            '/login/UpdateUserProfile'
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
