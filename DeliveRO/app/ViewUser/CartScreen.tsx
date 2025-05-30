@@ -8,7 +8,7 @@ type CartScreenProps = {
     addToCart: (item: any) => void;
 };
 
-const CartScreen: React.FC<CartScreenProps> = ({ cart, removeFromCart, addToCart }) => {
+const CartScreen: React.FC<CartScreenProps> = ({ cart, removeFromCart, addToCart, navigation }) => {
     // Group cart items by id and sum their quantities
     const groupCartItems = (cart: any[]) => {
         const grouped: { [id: string]: any } = {};
@@ -87,7 +87,7 @@ const CartScreen: React.FC<CartScreenProps> = ({ cart, removeFromCart, addToCart
                     <Button
                         title="Place Order"
                         color="#007AFF"
-                        onPress={() => {/* handle place order */ }}
+                        onPress={() => { navigation.navigate('PlaceOrder') }}
                     />
                 </View>
             )}

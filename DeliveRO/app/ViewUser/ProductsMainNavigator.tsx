@@ -11,6 +11,8 @@ const Stack = createNativeStackNavigator<ProductsStackParamList>();
 const ProductsMainNavigator = () => {
     const [cart, setCart] = useState<any[]>([]);
 
+    const clearCart = () => setCart([]);
+
     const addToCart = (item: any) => setCart((prev) => {
         const existingItem = prev.find((i) => i.id === item.id);
         if (existingItem) {
@@ -60,6 +62,18 @@ const ProductsMainNavigator = () => {
                         />
                     )}
                 </Stack.Screen>
+                 <Stack.Screen
+                    name="PlaceOrder"
+                    options={{ title: 'Place Order' }}
+                >
+                    {(props) => (
+                        <PlaceOrderScreen
+                            {...props}
+                            cart={cart} 
+                            clearCart={clearCart}
+                        />
+                    )}
+                </Stack.Screen>
             </Stack.Navigator>
 
             {/* Floating cart button */}
@@ -68,6 +82,7 @@ const ProductsMainNavigator = () => {
 };
 
 import CartScreen from './CartScreen';
+import PlaceOrderScreen from './PlaceOrderScreen';
 import ProductsScreen from './ProductsScreen';
 
 export default ProductsMainNavigator;

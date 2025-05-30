@@ -1,7 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Icon } from 'react-native-elements';
 import ProfileScreen from '../ViewCommon/ProfileScreen';
+import OrderDetailsScreen from './OrderDetailScreen';
+import OrdersScreen from './OrdersScreen';
 import ProductsMainNavigator from './ProductsMainNavigator';
 
 export function UserNavigator() {
@@ -32,7 +35,8 @@ export function UserNavigator() {
             />
             <Tab.Screen
                 name="Orders"
-                component={() => <></>}
+                options={{ headerShown: false }}
+                component={OrdersMainNavigator}
             />
             <Tab.Screen
                 name="Profile"
@@ -41,5 +45,22 @@ export function UserNavigator() {
         </Tab.Navigator>
     );
 }
+
+const Stack = createNativeStackNavigator();
+
+const OrdersMainNavigator = () => (
+    <Stack.Navigator initialRouteName="Orders">
+        <Stack.Screen
+            name="Orders"
+            component={OrdersScreen}
+            options={{ title: 'Orders' }}
+        />
+        <Stack.Screen
+            name="OrderDetails"
+            component={OrderDetailsScreen}
+            options={{ title: 'Order Details' }}
+        />
+    </Stack.Navigator>
+);
 
 export default UserNavigator;

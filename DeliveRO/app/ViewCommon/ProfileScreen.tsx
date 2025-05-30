@@ -56,8 +56,8 @@ const ProfileDetails: React.FC<{ userData: any }> = ({ userData }) => {
                 }
                 style={{ width: 200, height: 200, borderRadius: 20, margin: 20 }}
             />
-            <Text>{userData.firstName + " " + userData.lastName}</Text>
-            <Text>{userData.email}</Text>
+            <Text>{`Name: ${userData.firstName + " " + userData.lastName}`}</Text>
+            <Text>{`Email: ${userData.email}`}</Text>
         </View>
     );
 };

@@ -49,6 +49,12 @@
         "projectId": "570b973c-749e-4f80-a464-df1ad6c3217b"
       }
     },
-    "owner": "denmircea"
+    "owner": "denmircea",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/570b973c-749e-4f80-a464-df1ad6c3217b"
+    }
   }
 }

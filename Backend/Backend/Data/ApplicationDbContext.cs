@@ -14,7 +14,8 @@ namespace Backend.Data
         public DbSet<User> Users { get; set; } = default!; // 'default!' silences nullable warning
         public DbSet<Product> Products { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
-
+        public DbSet<Order> Orders { get; set; } = default!;
+        public DbSet<OrderItem> OrderItems { get; set; } = default!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            

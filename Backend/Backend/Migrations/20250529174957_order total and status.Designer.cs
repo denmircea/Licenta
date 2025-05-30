@@ -4,6 +4,7 @@ using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250529174957_order total and status")]
+    partial class ordertotalandstatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,9 +64,6 @@ namespace Backend.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("DeliveryUserID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -74,10 +74,6 @@ namespace Backend.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("DeliveryUserID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Orders");
                 });
@@ -204,23 +200,6 @@ namespace Backend.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Backend.Models.Order", b =>
-                {
-                    b.HasOne("Backend.Models.User", "DeliveryUser")
-                        .WithMany()
-                        .HasForeignKey("DeliveryUserID");
-
-                    b.HasOne("Backend.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeliveryUser");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Backend.Models.OrderItem", b =>

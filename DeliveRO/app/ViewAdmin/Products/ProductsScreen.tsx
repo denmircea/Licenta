@@ -51,13 +51,13 @@ const ProductsScreen: React.FC = (props) => {
 
     useEffect(() => {
         if (isFocused) {
-            setLoading(true);
+           // setLoading(true);
             const fetchData = async () => {
                 const categoriesData: Category[] = await retrieveCategories();
                 const productsData: Product[] = await retrieveAllProducts();
                 setCategories(categoriesData);
                 setProducts(productsData);
-                setLoading(false);
+                //setLoading(false);
             };
             fetchData();
         }
