@@ -1,8 +1,8 @@
 import axios from 'axios';
+import { constants } from '../constants/constants';
 import { selectAuth } from '../store/authReducer';
 import { store } from '../store/store';
 
-const baseApiUrl = 'https://c092-86-120-52-229.ngrok-free.app/api';
 
 const axiosInstance = axios.create({
 
@@ -32,7 +32,7 @@ export const getCall = async (
     const token = auth?.token || null;
     const reqConfig = {
         method: 'get',
-        url: baseApiUrl + url,
+        url: constants.BASEAPIURL + url,
         params,
         headers: {},
     };
@@ -49,7 +49,7 @@ export const postCall = async (
     const token = auth?.token || null;
     const reqConfig = {
         method: 'post',
-        url: baseApiUrl + url,
+        url: constants.BASEAPIURL + url,
         data: params,
         headers: {},
     };
