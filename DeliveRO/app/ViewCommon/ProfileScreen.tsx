@@ -193,7 +193,12 @@ const ProfileScreen: React.FC = (props) => {
                         onPress={() => {
                             dispatch(onLogin({}));
                         }}
-                        color={'red'}
+                        buttonStyle={{
+                            backgroundColor: '#d32f2f', // Material Red 700
+                            borderRadius: 10,
+                            paddingHorizontal: 20,
+                        }}
+                        titleStyle={{ fontWeight: 'bold' }}
                     />
                 </View>
             </View>
