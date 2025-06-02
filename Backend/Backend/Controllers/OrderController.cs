@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
+    public class AssignOrderToDeliveryUserRequest
+    {
+        public Guid OrderId { get; set; }
+    }
     public class OrderController: BaseController
     {
         private readonly IOrderServices _orderServices;
@@ -36,6 +40,35 @@ namespace Backend.Controllers
                 return NotFound("Order not found.");
             }
             return Ok(order);
+        }
+        [HttpGet]
+        public IActionResult RetrieveDeliveryAvailableOrders()
+        {
+            var availableOrders = _orderServices.RetrieveDeliveryAvailableOrders();
+            return Ok(availableOrders);
+        }
+        [HttpPost]
+        public IActionResult AssignOrderToDeliveryUser([FromBody] AssignOrderToDeliveryUserRequest request)
+        {
+            _orderServices.AssignOrderToDeliveryUser(GetRequestUserID(), request.OrderId);
+            return Ok(true);
+        }
+        [HttpGet]
+        public IActionResult RetrieveCurrentDeliveryOrder()
+        {
+            var deliveryUserID = GetRequestUserID();
+            var order = _orderServices.RetrieveCurrentDeliveryOrder(deliveryUserID);
+            if(order == null)
+            {
+                return Ok(false);
+            }
+            return Ok(order);
+        }
+        [HttpPost]
+        public IActionResult ConfirmDeliveryOrder([FromBody] AssignOrderToDeliveryUserRequest request)
+        {
+            _orderServices.ConfirmDeliveryOrder(request.OrderId);
+            return Ok(true);
         }
     }
 }

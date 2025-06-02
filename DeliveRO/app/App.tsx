@@ -8,6 +8,7 @@ import { LoginScreen } from './components/Login';
 import { onLogin, selectAuth } from './store/authReducer';
 import AdminNavigator from './ViewAdmin/AdminNavigator';
 import ProfileScreen from './ViewCommon/ProfileScreen';
+import DeliveryNavigator from './ViewDelivery/DeliveryNavigator';
 import UserNavigator from './ViewUser/UserNavigator';
 
 // Dummy screens
@@ -61,14 +62,7 @@ function AuthNavigator(authProps: any) {
 
 
 
-function DeliveryNavigator() {
-    return (
-        <AppStack.Navigator>
-            <AppStack.Screen name="DeliveryHome" component={HomeScreen} />
-            {/* Add other delivery screens here */}
-        </AppStack.Navigator>
-    );
-}
+
 
 export default function App() {
     useEffect(() => {

@@ -14,5 +14,12 @@
             public const string Delivery = "Delivery";
             public const string BackOfficeAdmin = "BackOfficeAdmin";
         }
+        public enum OrderStatus
+        {
+            Pending = 0,
+            DeliveryInProgress = 100,
+            Delivered = 200,
+            Cancelled = 300
+        }
     }
 }

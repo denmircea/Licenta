@@ -1,6 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Interfaces;
 using Backend.Models;
+using Backend.Utils;
 using Backend.Wrappers;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,6 +63,40 @@ namespace Backend.Services
                 .FirstOrDefault();
             result.OrderItems.ForEach(f => f.Order = null);
             return result ?? new Order();
+        }
+
+        public List<Order> RetrieveDeliveryAvailableOrders()
+        {
+            var orders = Context.Orders
+                .Include(o => o.User)
+                .Where(o => o.DeliveryUserID == null && o.Status == (int)CoreEnums.OrderStatus.Pending)
+                .ToList();
+            return orders.ToList();
+        }
+
+        public void AssignOrderToDeliveryUser(Guid userId, Guid orderId)
+        {
+            var order = Context.Orders.Where(f => f.ID == orderId).FirstOrDefault();
+            if(order != null && order.DeliveryUserID == null)
+            {
+                order.DeliveryUserID = userId;
+                order.Status = (int)CoreEnums.OrderStatus.DeliveryInProgress;
+            }
+            Context.SaveChanges();
+            return;
+        }
+
+        public Order RetrieveCurrentDeliveryOrder(Guid userId)
+        {
+            return Context.Orders.Where(f => f.DeliveryUserID == userId && f.Status == (int)CoreEnums.OrderStatus.DeliveryInProgress).FirstOrDefault();
+        }
+
+        public void ConfirmDeliveryOrder(Guid orderId)
+        {
+
+            var order = Context.Orders.Where(f => f.ID == orderId).FirstOrDefault();
+            order.Status = (int)CoreEnums.OrderStatus.Delivered;
+            Context.SaveChanges();
         }
     }
 }
