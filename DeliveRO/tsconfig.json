@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "app/ViewCommon/Maps/DeliveryMap.web.js", "app/ViewCommon/Maps/DeliveryMap.js"  ]
 }

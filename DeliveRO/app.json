@@ -27,6 +27,9 @@
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/icon.png",
+      "aliases": {
+        "react-native-maps": "@teovilla/react-native-web-maps"
+      }
     },
     "plugins": [
       "expo-router",

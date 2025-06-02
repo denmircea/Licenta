@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Button, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { placeOrder } from '../api/ordersApi';
-// import DeliveryMap from '../ViewCommon/Maps/DeliveryMap';
+import DeliveryMap from '../ViewCommon/Maps/DeliveryMap';
 
 let MapView: any;
 
@@ -51,18 +51,19 @@ const PlaceOrderScreen: React.FC<PlaceOrderScreenProps> = ({ navigation, cart, c
                         onChangeText={setAddress}
                     />
                 </View>
+                <DeliveryMap
+                    ref={(ref) => (MapView = ref)}
+                    style={styles.map}
+                    onLocationSelected={(location) => {
+                        setAddress(location.address);
+                    }}
+                />
                 <View style={{ flex: 1 }} />
                 <View style={{ marginBottom: 16 }}>
                     <Button title="Place Order" onPress={handlePlaceOrder} color="#007AFF" />
                 </View>
             </View>
-            {/* <DeliveryMap
-                ref={(ref) => (MapView = ref)}
-                style={styles.map}
-                onLocationSelected={(location) => {
-                    setAddress(location.address);
-                }}
-            /> */}
+
         </KeyboardAvoidingView>
     );
 };
