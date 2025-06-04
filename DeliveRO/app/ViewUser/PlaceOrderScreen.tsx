@@ -13,18 +13,24 @@ type PlaceOrderScreenProps = {
 
 const PlaceOrderScreen: React.FC<PlaceOrderScreenProps> = ({ navigation, cart, clearCart }) => {
     const [address, setAddress] = useState('');
+    const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
 
 
     const handlePlaceOrder = async () => {
         if (!address) {
-            Alert.alert('Please complete all fields and select a location on the map.');
+            if (Platform.OS === 'web') {
+                window.alert('Please complete location field.');
+            } else {
+                Alert.alert('Please complete all fields and select a location on the map.');
+            }
             return;
         }
         // Prepare order data
         const orderData = {
             addressData: {
                 address: address,
+                location: location || { latitude: null, longitude: null }, // Default to (0,0) if no location is selected
             },
             cart,
         };
@@ -55,7 +61,10 @@ const PlaceOrderScreen: React.FC<PlaceOrderScreenProps> = ({ navigation, cart, c
                     ref={(ref) => (MapView = ref)}
                     style={styles.map}
                     onLocationSelected={(location) => {
-                        setAddress(location.address);
+                        setLocation(location);
+                    }}
+                    setAddressExternal={(address) => {
+                        setAddress(address);
                     }}
                 />
                 <View style={{ flex: 1 }} />

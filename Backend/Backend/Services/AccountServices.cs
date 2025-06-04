@@ -113,5 +113,11 @@ namespace Backend.Services
             }
             return Context.SaveChanges()>0;
         }
+
+        public Task<bool> LogLoginAnalytics(LoginAnalytics loginAnalytics)
+        {
+            Context.LoginAnalytics.Add(loginAnalytics);
+            return Task.FromResult(Context.SaveChanges() > 0);
+        }
     }
 }

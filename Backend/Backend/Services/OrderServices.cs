@@ -37,6 +37,9 @@ namespace Backend.Services
                 Status = 0,
                 Total = total,
                 Address = request.AddressData.Address,
+                Latitude = request.AddressData.Location.Latitude,
+                Longitude = request.AddressData.Location.Longitude,
+                
             };
             Context.Orders.Add(order);
             return Context.SaveChanges() > 0;
@@ -69,7 +72,9 @@ namespace Backend.Services
         {
             var orders = Context.Orders
                 .Include(o => o.User)
+                .AsNoTracking()
                 .Where(o => o.DeliveryUserID == null && o.Status == (int)CoreEnums.OrderStatus.Pending)
+                .OrderBy(f=>f.CreatedOn)
                 .ToList();
             return orders.ToList();
         }
@@ -95,8 +100,43 @@ namespace Backend.Services
         {
 
             var order = Context.Orders.Where(f => f.ID == orderId).FirstOrDefault();
-            order.Status = (int)CoreEnums.OrderStatus.Delivered;
-            Context.SaveChanges();
+            if (order != null)
+            {
+                order.Status = (int)CoreEnums.OrderStatus.Delivered;
+                Context.SaveChanges();
+            }
+        }
+
+        public List<Order> GetDeliveryUserOrdersHistory(Guid userId)
+        {
+            var orders = Context.Orders.AsNoTracking().Where(f => f.DeliveryUserID == userId).OrderByDescending(f=>f.CreatedOn).ToList();
+            return orders;
+        }
+
+        public DeliveryUserSalesData GetDeliveryUserSalesData(Guid userId)
+        {
+            var orders = Context.Orders.AsNoTracking().Where(f => f.DeliveryUserID == userId && f.CreatedOn.AddDays(30) >= DateTime.Now).Select(c => new
+            {
+                Total = c.Total,
+                CreatedOn = c.CreatedOn
+            }).ToList();
+            var result = new DeliveryUserSalesData();
+            result.LastDay = new DeliveryUserSalesDataInterval
+            {
+                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-1)).Sum(f => f.Total),
+                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-1))
+            };
+            result.LastWeek = new DeliveryUserSalesDataInterval
+            {
+                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-7)).Sum(f => f.Total),
+                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-7))
+            };
+            result.LastMonth = new DeliveryUserSalesDataInterval
+            {
+                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-30)).Sum(f => f.Total),
+                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-30))
+            };
+            return result;
         }
     }
 }

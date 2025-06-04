@@ -11,7 +11,7 @@ namespace Backend.Controllers
     {
         public Guid OrderId { get; set; }
     }
-    public class OrderController: BaseController
+    public class OrderController : BaseController
     {
         private readonly IOrderServices _orderServices;
         public OrderController(ApplicationDbContext context)
@@ -58,7 +58,7 @@ namespace Backend.Controllers
         {
             var deliveryUserID = GetRequestUserID();
             var order = _orderServices.RetrieveCurrentDeliveryOrder(deliveryUserID);
-            if(order == null)
+            if (order == null)
             {
                 return Ok(false);
             }
@@ -69,6 +69,19 @@ namespace Backend.Controllers
         {
             _orderServices.ConfirmDeliveryOrder(request.OrderId);
             return Ok(true);
+        }
+
+        [HttpGet]
+        public IActionResult GetDeliveryUserOrdersHistory()
+        {
+            var data = _orderServices.GetDeliveryUserOrdersHistory(GetRequestUserID());
+            return Ok(data);
+        }
+        [HttpGet]
+        public IActionResult GetDeliveryUserSalesData()
+        {
+            var data = _orderServices.GetDeliveryUserSalesData(GetRequestUserID());
+            return Ok(data);
         }
     }
 }

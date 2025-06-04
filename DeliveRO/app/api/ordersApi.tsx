@@ -87,3 +87,27 @@ export async function confirmDeliveryOrder(orderId: string) {
         throw error;
     }
 }
+
+export async function getDeliveryUserOrdersHistory() {
+    try {
+        const response = await apiUtils.getCall(
+            null,
+            '/Order/GetDeliveryUserOrdersHistory'
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getDeliveryUserSalesData() {
+    try {
+        const response = await apiUtils.getCall(
+            null,
+            '/Order/GetDeliveryUserSalesData'
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

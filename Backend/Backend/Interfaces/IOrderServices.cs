@@ -12,6 +12,8 @@ namespace Backend.Interfaces
         public void AssignOrderToDeliveryUser(Guid userId, Guid orderId);
         public Order RetrieveCurrentDeliveryOrder(Guid userId);
         public void ConfirmDeliveryOrder(Guid orderId);
+        public List<Order> GetDeliveryUserOrdersHistory(Guid userId);
+        public DeliveryUserSalesData GetDeliveryUserSalesData(Guid userId);
 
     }
 }

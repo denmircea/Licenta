@@ -6,6 +6,8 @@ import { Icon } from 'react-native-elements';
 // import DeliveryOrderDetailsScreen from './DeliveryOrderDetailsScreen';
 // import DeliveryProfileScreen from './DeliveryProfileScreen';
 import { ProfileMainNavigator } from '../ViewCommon/ProfileScreen';
+import DeliveriesHistoryScreen from './DeliveriesHistoryScreen';
+import DeliveriesScreen from './DeliveriesScreen';
 import NewOrdersScreen from './NewOrdersScreen';
 
 export function DeliveryNavigator() {
@@ -48,17 +50,18 @@ export function DeliveryNavigator() {
 const Stack = createNativeStackNavigator();
 
 const DeliveriesMainNavigator = () => (
-    <Stack.Navigator initialRouteName="Deliveries">
+    <Stack.Navigator initialRouteName="DeliveriesHistory">
+         <Stack.Screen
+            name="DeliveriesHistory"
+            component={DeliveriesHistoryScreen}
+            options={{ title: 'Delivery history', headerShown: true }}
+        />
         <Stack.Screen
             name="Deliveries"
-            component={ProfileMainNavigator}
-            options={{ title: 'Deliveries', headerShown: false }}
+            component={DeliveriesScreen}
+            options={{ title: 'All deliveries', headerShown: true }}
         />
-        <Stack.Screen
-            name="DeliveryOrderDetails"
-            component={ProfileMainNavigator}
-            options={{ title: 'Delivery Details', headerShown: false }}
-        />
+       
     </Stack.Navigator>
 );
 

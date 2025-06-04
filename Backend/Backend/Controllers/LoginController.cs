@@ -1,5 +1,6 @@
 using Backend.Data;
 using Backend.Interfaces;
+using Backend.Models;
 using Backend.Services;
 using Backend.Utils;
 using Backend.Wrappers.Login;
@@ -33,7 +34,15 @@ namespace Backend.Controllers
             {
                 return Unauthorized("Invalid email or password.");
             }
-            // return bearer token for this user
+            var loginAnalitics = new LoginAnalytics
+            {
+                ID = Guid.NewGuid(),
+                UserID = user.ID,
+                Date = DateTime.UtcNow,
+                IPAddress = Request.HttpContext.Connection.RemoteIpAddress?.ToString() ?? "",
+                UserAgent = Request.Headers["User-Agent"].ToString() ?? ""
+            };
+            _accountServices.LogLoginAnalytics(loginAnalitics);
             var bearerToken = _accountServices.GenerateAccessToken(user);
             return Ok(new { Token = bearerToken, User = user });
         }

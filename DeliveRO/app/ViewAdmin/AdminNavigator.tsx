@@ -3,6 +3,7 @@ import React from 'react';
 import { Icon } from 'react-native-elements';
 import { ProfileMainNavigator } from '../ViewCommon/ProfileScreen';
 import ProductsMainNavigator from './Products/ProductsMainNavigator';
+import SalesScreen from './SalesScreen';
 
 export function AdminNavigator() {
     const Tab = createBottomTabNavigator();
@@ -15,7 +16,7 @@ export function AdminNavigator() {
 
                     if (route.name === 'Products') {
                         iconName = 'shopping-cart';
-                    } else if (route.name === 'Sales') {
+                    } else if (route.name === 'Sales Analytics') {
                         iconName = 'bar-chart';
                     } else if (route.name === 'Profile') {
                         iconName = 'group';
@@ -30,8 +31,8 @@ export function AdminNavigator() {
                 name="Products"
                 component={ProductsMainNavigator} />
             <Tab.Screen
-                name="Sales"
-                component={() => <></>}
+                name="Sales Analytics"
+                component={SalesScreen}
             />
             <Tab.Screen
                 name="Profile"

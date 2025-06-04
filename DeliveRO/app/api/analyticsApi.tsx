@@ -1,10 +1,10 @@
 import * as apiUtils from './apiUtils';
 
-export async function retrieveCategories() {
+export async function retrieveAdministrationAnalytics() {
     try {
         const response = await apiUtils.getCall(
             null,
-            '/Category/GetCategories'
+            '/Analytics/GetAdministrationAnalytics'
         );
         return response.data;
     } catch (error) {

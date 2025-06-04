@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Platform, StyleSheet, Text, View } from 'react-native';
 import Slider from 'react-native-slide-to-unlock'; // Ensure you have this package installed
 import { constants } from '../constants/constants';
+import { MapDestinationPointComponent } from '../ViewCommon/Maps/MapDestinationPointComponent';
 
 type CurrentOrderComponentProps = {
     order: {
@@ -25,6 +26,16 @@ const CurrentOrderComponent: React.FC<CurrentOrderComponentProps> = ({ order, on
                 <Text style={styles.info}>Address: {order.address}</Text>
                 <Text style={styles.info}>Status: {constants.OrderStatus[order.status] || 'Unknown'}</Text>
                 <Text style={styles.total}>Total: {order.total.toFixed(2)} {constants.currency}</Text>
+                {order.latitude && order.longitude && (
+                    <View style={{ marginTop: 20 }}>
+                        <MapDestinationPointComponent
+                            destination={{
+                                latitude: order.latitude,
+                                longitude: order.longitude,
+                            }}
+                        />
+                    </View>
+                )}
             </View>
             <View style={styles.bottomContainer}>
                 {/* You can use a third-party slider button, e.g., react-native-slide-to-unlock */}
