@@ -17,6 +17,7 @@ namespace Backend.Data
         public DbSet<Order> Orders { get; set; } = default!;
         public DbSet<OrderItem> OrderItems { get; set; } = default!;
         public DbSet<LoginAnalytics> LoginAnalytics { get; set; } = default!;
+        public DbSet<OrderItemRelationAnalystics> OrderItemRelationAnalystics { get; set; } = default!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
