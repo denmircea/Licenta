@@ -2,9 +2,9 @@
   "expo": {
     "name": "DeliveRO",
     "slug": "delivero",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/delivero.png",
     "scheme": "delivero",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,11 +13,15 @@
       "bundleIdentifier": "com.denmircea.delivero",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
+      },
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/delivero.png",
+        "backgroundColor": "#555500"
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
+        "foregroundImage": "./assets/images/delivero.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -36,7 +40,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#232323",
+          "backgroundColor": "#555500",
           "image": "./assets/images/icon.png",
           "imageWidth": 200
         }

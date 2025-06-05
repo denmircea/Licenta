@@ -84,7 +84,7 @@ const NewOrdersScreen: React.FC = (props) => {
                             <TouchableOpacity
                                 activeOpacity={0.7}
                                 onPress={() => {
-                                    props.navigation.navigate('OrderDetails', { orderId: order.id });
+                                   // props.navigation.navigate('OrderDetails', { orderId: order.id });
                                 }}
                                 style={{ flexDirection: 'row', alignItems: 'center', padding: 16 }}
                             >

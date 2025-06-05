@@ -2,8 +2,8 @@ import { retrieveCategories } from '@/app/api/categoriesApi';
 import { retrieveAllProducts } from '@/app/api/productsApi';
 import InlineDropdown from '@/app/components/Dropdown';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { constants } from '../constants/constants';
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import renderProductCard from '../components/ProductCardComponent';
 import CartButton from './CartButton';
 
 type Category = {
@@ -65,39 +65,7 @@ const ProductsScreen: React.FC<ProductsScreenProps> = (props) => {
         setSelectedCategory(categoryId);
     };
 
-    const renderProductCard = ({ item }: { item: Product }) => (
-        <View style={[styles.card, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}>
-            <TouchableOpacity
-                style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
-                onPress={() => {
-                    // Navigate to edit screen or open modal
-                }}
-            >
-                <View style={{ marginRight: 12 }}>
-                    <Image
-                        source={
-                            item?.image?.length > 0
-                                ? { uri: `data:image/png;base64,${item.image}` }
-                                : { uri: constants.NO_IMAGE_URL }
-                        }
-                        style={{ width: 50, height: 50, borderRadius: 8, backgroundColor: '#eee' }}
-                        resizeMode="cover"
-                    />
-                </View>
-                <View style={{ flex: 1 }}>
-                    <Text style={styles.productName}>{item.name}</Text>
-                    <Text>{item.description.substring(0, 30)}</Text>
-                    <Text style={{color: 'green'}}>Price: {item.price} {constants.currency}</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.addButton}
-                onPress={() => addToCart(item)}
-            >
-                <Text style={styles.addButtonText}>Add</Text>
-            </TouchableOpacity>
-        </View>
-    );
+
 
     if (loading) {
         return (
@@ -123,7 +91,7 @@ const ProductsScreen: React.FC<ProductsScreenProps> = (props) => {
             <FlatList
                 data={filteredProducts}
                 keyExtractor={(item) => item.id}
-                renderItem={renderProductCard}
+                renderItem={(info) => renderProductCard({ ...info, addToCart })}
                 contentContainerStyle={styles.list}
                 ListEmptyComponent={<Text>No products found.</Text>}
             />

@@ -11,3 +11,15 @@ export async function retrieveAdministrationAnalytics() {
         throw error;
     }
 }
+
+export async function getRecommendedProducts(productIds: string[]) {
+    try {
+        const response = await apiUtils.postCall(
+            { productIds },
+            '/Analytics/GetRecommendedProducts'
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

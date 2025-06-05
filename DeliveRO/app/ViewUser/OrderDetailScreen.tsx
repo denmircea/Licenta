@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { FlatList, Image, Text, View } from 'react-native';
+import { FlatList, Image, Linking, Text, View } from 'react-native';
 import { retrieveOrderDetails } from '../api/ordersApi';
 import { constants } from '../constants/constants';
 
@@ -154,16 +154,16 @@ const OrderDetailsScreen: React.FC = () => {
                     {orderDetails.deliveryUser.image ? (
                         <Image
                             source={{ uri: `data:image/jpeg;base64,${orderDetails.deliveryUser.image}` }}
-                            style={{ width: 32, height: 32, borderRadius: 16, marginRight: 8 }}
+                            style={{ width: 48, height: 48, borderRadius: 24, marginRight: 12 }}
                         />
                     ) : (
                         <View
                             style={{
-                                width: 32,
-                                height: 32,
-                                borderRadius: 16,
+                                width: 48,
+                                height: 48,
+                                borderRadius: 24,
                                 backgroundColor: '#ccc',
-                                marginRight: 8,
+                                marginRight: 12,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}
@@ -171,9 +171,66 @@ const OrderDetailsScreen: React.FC = () => {
                             <Text style={{ color: '#fff' }}>N/A</Text>
                         </View>
                     )}
-                    <Text>
-                        Delivery User: {orderDetails.deliveryUser.firstName} {orderDetails.deliveryUser.lastName} ({orderDetails.deliveryUser.email})
-                    </Text>
+
+                    <View
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 12,
+                            padding: 12,
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.1,
+                            shadowRadius: 4,
+                            elevation: 3,
+                        }}
+                    >
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 2 }}>
+                            Delivery User
+                        </Text>
+                        <Text>
+                            {orderDetails.deliveryUser.firstName} {orderDetails.deliveryUser.lastName}
+                        </Text>
+                        <Text style={{ color: '#888' }}>
+                            {orderDetails.deliveryUser.email}
+                        </Text>
+                        {orderDetails.deliveryUser.phone && (
+                            <Text style={{ color: '#888' }}>
+                                {orderDetails.deliveryUser.phone}
+                            </Text>
+                        )}
+                        <View style={{ position: 'absolute', alignItems: 'center', right: 8 }}>
+                            {orderDetails.deliveryUser.phoneNumber && (
+                                <View style={{ marginLeft: 12 }}>
+                                    <Text
+                                        onPress={() => {
+                                            const phone = orderDetails.deliveryUser.phoneNumber;
+                                            if (phone) {
+                                                Linking.openURL(`tel:${phone}`);
+                                            }
+                                        }}
+                                        style={{
+                                            backgroundColor: '#1976d2',
+                                            borderRadius: 24,
+                                            padding: 10,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            overflow: 'hidden',
+                                        }}
+                                    >
+                                        <Image
+                                            source={{
+                                                uri: 'https://img.icons8.com/ios-filled/50/ffffff/phone.png',
+                                            }}
+                                            style={{ width: 24, height: 24, tintColor: '#fff' }}
+                                        />
+                                    </Text>
+                                </View>
+                            )}
+                        </View>
+                    </View>
                 </View>
             )}
 

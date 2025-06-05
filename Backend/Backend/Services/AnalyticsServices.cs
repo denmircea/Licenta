@@ -29,7 +29,7 @@ namespace Backend.Services
         {
         }
 
-        public AnalyticsResponse GetAllAnalytics(int days = 7)
+        public AnalyticsResponse GetAllAnalytics(int days = 3)
         {
             var result = new AnalyticsResponse();
             var loginAnalytics = Context.LoginAnalytics.Where(c=>c.Date.Date.AddDays(days) >= DateTime.Now.Date).Include(c => c.User).GroupBy(f => (f.User.UserType)).ToDictionary(f => f.Key, f =>
@@ -64,6 +64,40 @@ namespace Backend.Services
             }).OrderByDescending(f => f.Value).Take(3).ToList();
             result.TopDeliveryUsers = topDeliveryUsersSalesData;
             return result;
+        }
+
+        public List<Product> GetRecommendedProducts(List<Guid> initialProductIds)
+        {
+            var costsDictionary = new  Dictionary<Guid, decimal>();
+                    
+            var nodesNext = Context.OrderItemRelationAnalystics
+                .Where(c => initialProductIds.Contains(c.Product1ID) || initialProductIds.Contains(c.Product2ID))
+                .ToList();
+
+            nodesNext.ForEach(f =>
+            {
+                if(initialProductIds.Contains(f.Product1ID) && initialProductIds.Contains(f.Product2ID))
+                {
+                    return; // Skip if both products are in the initial list
+                }
+                var productId = initialProductIds.Contains(f.Product1ID) ? f.Product2ID : f.Product1ID;
+                if (costsDictionary.ContainsKey(productId))
+                {
+                    costsDictionary[productId] += f.EdgeValue;
+                }
+                else
+                {
+                    costsDictionary[productId] = f.EdgeValue;
+                }
+            });
+            var recommendedProducts = costsDictionary
+                .OrderByDescending(f => f.Value)
+                .Take(3)
+                .Select(f => f.Key)
+                .ToList();
+            return Context.Products.AsNoTracking()
+                .Where(c => recommendedProducts.Contains(c.ID))
+                .ToList();
         }
     }
 }

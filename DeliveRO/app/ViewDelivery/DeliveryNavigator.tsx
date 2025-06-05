@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements';
 // import DeliveryProfileScreen from './DeliveryProfileScreen';
 import { ProfileMainNavigator } from '../ViewCommon/ProfileScreen';
 import DeliveriesHistoryScreen from './DeliveriesHistoryScreen';
-import DeliveriesScreen from './DeliveriesScreen';
+import DeliveriesScreen from './DeliveriesScreen_';
 import NewOrdersScreen from './NewOrdersScreen';
 
 export function DeliveryNavigator() {

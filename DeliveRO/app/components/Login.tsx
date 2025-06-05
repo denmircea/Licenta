@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Button, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native";
+import { Button, Image, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native";
 import { Icon } from "react-native-elements";
 import { login } from "../api/loginApi";
+const logo = require('../../assets/images/icon.png');
 
 export const LoginScreen = (props: any) => {
     const [email, setEmail] = useState('');
@@ -25,87 +26,149 @@ export const LoginScreen = (props: any) => {
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#A7C7E7' }}>
+        <View style={{ flex: 1, backgroundColor: '#EAF0F6' }}>
             <KeyboardAvoidingView
-                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 keyboardVerticalOffset={60}
             >
-
+                <View
+                    style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                    // Dismiss keyboard on tap outside (including swipe down gesture)
+                    onStartShouldSetResponder={() => true}
+                    onResponderRelease={() => {
+                        // Dismiss keyboard on swipe/tap outside
+                        if (Platform.OS !== 'web') {
+                            // @ts-ignore
+                            Keyboard.dismiss();
+                        }
+                    }}
+                />
                 <View style={{
                     width: '90%',
-                    maxWidth: 400,
-                    padding: 24,
+                    maxWidth: 380,
+                    padding: 28,
                     backgroundColor: '#fff',
-                    borderRadius: 16,
-                    elevation: 3,
+                    borderRadius: 20,
+                    shadowColor: '#007AFF',
+                    shadowOffset: { width: 0, height: 8 },
+                    shadowOpacity: 0.28,
+                    shadowRadius: 24,
+                    elevation: 10,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    alignSelf: 'center',
                 }}>
-                    <Icon
-                        name="fastfood"
-                        type="material"
-                        color="#007AFF"
-                        size={40}
-                        style={{ lineHeight: 24, marginTop: 5 }}
-                    ></Icon>
-                    <Text style={{
-                        fontSize: 24,
-                        fontWeight: 'bold',
-                        marginBottom: 24,
-                        color: '#007AFF',
-                        textAlign: 'center',
-                        fontFamily: 'Cochin',
+                    <Image
+                        source={logo}
+                        style={{
+                            width: 100,
+                            height: 100,
+                            // borderRadius: 36,
+                            marginBottom: 25,
+                            // backgroundColor: '#E3F0FF',
+                        }}
+                        resizeMode="contain"
+                    />
+                  
+                    <View style={{
+                        width: '100%',
+                        marginBottom: 18,
+                        backgroundColor: '#F7FAFC',
+                        borderRadius: 16,
+                        borderWidth: 1.5,
+                        borderColor: '#D1E3F8',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingHorizontal: 14,
+                        shadowColor: '#007AFF',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.08,
+                        shadowRadius: 4,
+                        elevation: 2,
                     }}>
+                        <Icon name="email" type="material" color="#A7C7E7" size={22} />
+                        <TextInput
+                            placeholder="Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            style={{
+                                flex: 1,
+                                paddingVertical: 14,
+                                paddingHorizontal: 12,
+                                fontSize: 16,
+                                color: '#222',
+                                backgroundColor: 'transparent',
+                            }}
+                            editable={!loading}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            placeholderTextColor="#A7C7E7"
+                        />
+                    </View>
+                    <View style={{
+                        width: '100%',
+                        marginBottom: 22,
+                        backgroundColor: '#F7FAFC',
+                        borderRadius: 16,
+                        borderWidth: 1.5,
+                        borderColor: '#D1E3F8',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingHorizontal: 14,
+                        shadowColor: '#007AFF',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.08,
+                        shadowRadius: 4,
+                        elevation: 2,
+                    }}>
+                        <Icon name="lock" type="material" color="#A7C7E7" size={22} />
+                        <TextInput
+                            placeholder="Password"
+                            value={password}
+                            onChangeText={setPassword}
+                            style={{
+                                flex: 1,
+                                paddingVertical: 14,
+                                paddingHorizontal: 12,
+                                fontSize: 16,
+                                color: '#222',
+                                backgroundColor: 'transparent',
+                            }}
 
-                        DeliveRO
-                    </Text>
-                    <TextInput
-                        placeholder="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        style={{
-                            marginBottom: 16,
-                            paddingVertical: 14,
-                            paddingHorizontal: 18,
-                            width: '100%',
-                            borderWidth: 2,
-                            borderColor: '#007AFF',
-                            borderRadius: 32,
-                            fontSize: 16,
-                            backgroundColor: '#f2f2f2',
-                        }}
-                        editable={!loading}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                    />
-                    <TextInput
-                        placeholder="Password"
-                        value={password}
-                        onChangeText={setPassword}
-                        style={{
-                            marginBottom: 16,
-                            paddingVertical: 14,
-                            paddingHorizontal: 18,
-                            width: '100%',
-                            borderWidth: 2,
-                            borderColor: '#007AFF',
-                            borderRadius: 32,
-                            fontSize: 16,
-                            backgroundColor: '#f2f2f2',
-                        }}
-                        secureTextEntry
-                        editable={!loading}
-                    />
-                    <Button
-                        title={loading ? 'Logging in...' : 'Login'}
-                        onPress={handleLogin}
-                        disabled={loading}
-                        color="#007AFF"
-                    />
+                            secureTextEntry
+                            editable={!loading}
+                            placeholderTextColor="#A7C7E7"
+                            onSubmitEditing={handleLogin}
+                        />
+                    </View>
+                    <View style={{
+                        width: '100%',
+                        marginTop: 6,
+                        marginBottom: 8,
+                        borderRadius: 16,
+                        overflow: 'hidden',
+                        shadowColor: '#007AFF',
+                        shadowOffset: { width: 0, height: 4 },
+                        shadowOpacity: 0.13,
+                        shadowRadius: 8,
+                        elevation: 4,
+                        backgroundColor: '#007AFF', // Added background color for iOS
+                    }}>
+                        <Button
+                            title={loading ? 'Logging in...' : 'Login'}
+                            onPress={handleLogin}
+                            disabled={loading}
+                            color={Platform.OS === 'ios' ? '#fff' : '#007AFF'} // White text on iOS
+                        />
+                    </View>
                     {error && (
-                        <Text style={{ color: 'red', marginTop: 16, textAlign: 'center' }}>{error}</Text>
+                        <Text style={{
+                            color: '#D7263D',
+                            marginTop: 14,
+                            textAlign: 'center',
+                            fontWeight: '500',
+                            fontSize: 15,
+                        }}>{error}</Text>
                     )}
                 </View>
             </KeyboardAvoidingView>

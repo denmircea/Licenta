@@ -68,8 +68,25 @@ const PlaceOrderScreen: React.FC<PlaceOrderScreenProps> = ({ navigation, cart, c
                     }}
                 />
                 <View style={{ flex: 1 }} />
-                <View style={{ marginBottom: 16 }}>
-                    <Button title="Place Order" onPress={handlePlaceOrder} color="#007AFF" />
+                <View style={{ marginBottom: 16, alignItems: 'center' }}>
+                    <View
+                        style={{
+                            width: '100%',
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.2,
+                            shadowRadius: 4,
+                            elevation: 5,
+                            borderRadius: 10,
+                            backgroundColor: '#007AFF',
+                        }}
+                    >
+                        <Button
+                            title="Place Order"
+                            onPress={handlePlaceOrder}
+                            color={Platform.OS === 'ios' ? '#fff' : '#007AFF'}
+                        />
+                    </View>
                 </View>
             </View>
 
