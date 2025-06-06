@@ -7,6 +7,7 @@
             User = 0,
             Delivery = 1,
             BackOfficeAdmin = 2,
+            UnconfirmedUser = 3,
         }
         public static class UserTypeNames
         {

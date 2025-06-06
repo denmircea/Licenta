@@ -23,3 +23,8 @@ export async function getRecommendedProducts(productIds: string[]) {
         throw error;
     }
 }
+
+export default {
+    retrieveAdministrationAnalytics,
+    getRecommendedProducts,
+}

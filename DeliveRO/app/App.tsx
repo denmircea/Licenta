@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginScreen } from './components/Login';
+import SignUpScreen from './components/SignUpScreen';
 import { onLogin, selectAuth } from './store/authReducer';
 import AdminNavigator from './ViewAdmin/AdminNavigator';
 import ProfileScreen from './ViewCommon/ProfileScreen';
@@ -47,6 +48,22 @@ function AuthNavigator(authProps: any) {
 
                 children={(props) => (
                     <LoginScreen
+                        {...props}
+                        onLoginSuccess={(result: any) => {
+                            authProps.onLoginSuccess(result);
+                        }}
+                    />
+                )}
+            />
+            <AuthStack.Screen
+                options={{
+                    headerShown: true,
+                    title: 'Sign Up',
+                }}
+                name="SignUp"
+
+                children={(props) => (
+                    <SignUpScreen
                         {...props}
                         onLoginSuccess={(result: any) => {
                             authProps.onLoginSuccess(result);

@@ -111,3 +111,15 @@ export async function getDeliveryUserSalesData() {
         throw error;
     }
 }
+
+export default {
+    placeOrder,
+    retrieveUserOrders,
+    retrieveDeliveryAvailableOrders,
+    assignOrderToDeliveryUser,
+    retrieveOrderDetails,
+    retrieveCurrentDeliveryOrder,
+    confirmDeliveryOrder,
+    getDeliveryUserOrdersHistory,
+    getDeliveryUserSalesData
+};

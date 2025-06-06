@@ -6,3 +6,5 @@ export const WebMapView: React.FC = () => (
         <Text>Map is not supported on web.</Text>
     </View>
 );
+
+export default WebMapView;

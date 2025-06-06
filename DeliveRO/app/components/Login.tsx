@@ -69,7 +69,7 @@ export const LoginScreen = (props: any) => {
                         }}
                         resizeMode="contain"
                     />
-                  
+
                     <View style={{
                         width: '100%',
                         marginBottom: 18,
@@ -170,6 +170,21 @@ export const LoginScreen = (props: any) => {
                             fontSize: 15,
                         }}>{error}</Text>
                     )}
+                    {/* Sign Up button in the bottom right corner */}
+                <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 18 }}>
+                    <Text
+                        style={{
+                            color: '#007AFF',
+                            fontWeight: '500',
+                            fontSize: 15,
+                            textAlign: 'right',
+                            padding: 6,
+                        }}
+                        onPress={() => props.navigation.navigate('SignUp')}
+                    >
+                        Need an account?
+                    </Text>
+                </View>
                 </View>
             </KeyboardAvoidingView>
         </View>

@@ -47,6 +47,35 @@ namespace Backend.Controllers
             return Ok(new { Token = bearerToken, User = user });
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult SignUp([FromBody] SignUpRequest request)
+        {
+            // Validate the request
+            if (
+                string.IsNullOrEmpty(request.FirstName)
+                || string.IsNullOrEmpty(request.LastName)
+                || string.IsNullOrEmpty(request.Email)
+                || string.IsNullOrEmpty(request.PhoneNumber)
+                || string.IsNullOrEmpty(request.Password)
+                )
+            {
+                return BadRequest("All fields are mandatory.");
+            }
+
+            var isEmailUsed = _accountServices.IsEmailRegistered(request.Email);
+            if (isEmailUsed)
+            {
+                return Unauthorized("Email already in use.");
+            }
+            var isSignUpSuccessful = _accountServices.SignUp(request);
+            if (!isSignUpSuccessful)
+            {
+                return StatusCode(500, "An error occurred while signing up. Please try again later.");
+            }
+            return Ok("Sign up successful. You can now log in with your credentials.");
+        }
+
         [Authorize(Roles = CoreEnums.UserTypeNames.BackOfficeAdmin)]
         [HttpGet]
         public IActionResult Get()

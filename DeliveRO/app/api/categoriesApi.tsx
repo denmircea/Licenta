@@ -11,3 +11,7 @@ export async function retrieveCategories() {
         throw error;
     }
 }
+
+export default {
+    retrieveCategories,
+};

@@ -56,3 +56,8 @@ export const postCall = async (
 
     return await getRequestWithHeaders(reqConfig, token);
 };
+
+export default {
+    getCall,
+    postCall,
+};

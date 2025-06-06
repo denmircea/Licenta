@@ -1,3 +1,4 @@
+import constants from '../constants/constants';
 import * as apiUtils from './apiUtils';
 
 export async function retrieveAllProducts() {
@@ -13,12 +14,11 @@ export async function retrieveAllProducts() {
     }
 }
 
-export const guidEmpty = '00000000-0000-0000-0000-000000000000';
 
 export async function saveProduct(product: any) {
     try {
         const response = await apiUtils.postCall(
-            { ...product, id: product.id || guidEmpty },
+            { ...product, id: product.id || constants.emptyGuid, category: null },
             '/Product/SaveProduct'
         );
         if (product.id) {
@@ -34,3 +34,8 @@ export async function saveProduct(product: any) {
         throw error;
     }
 }
+
+export default {
+    retrieveAllProducts,
+    saveProduct,
+};

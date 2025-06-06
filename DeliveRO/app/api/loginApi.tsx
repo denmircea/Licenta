@@ -14,6 +14,18 @@ export async function login(username: string, password: string) {
     }
 }
 
+export async function signUp(signUpData: any) {
+    try {
+        const response = await apiUtils.postCall(
+            signUpData,
+            '/login/SignUp'
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export async function getCurrentUserProfile() {
     try {
         const response = await apiUtils.getCall(
@@ -37,3 +49,10 @@ export async function updateUserProfile(data: any) {
         throw error;
     }
 }
+
+export default {
+    login,
+    signUp,
+    getCurrentUserProfile,
+    updateUserProfile,
+};

@@ -37,7 +37,7 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({ route, navi
     };
 
     const handleSave = async () => {
-        if (!product.name || !product.price || !product.stock) {
+        if (!product.name || !product.price ) {
             Alert.alert('Eroare', 'Completează toate câmpurile obligatorii.');
             return;
         }
@@ -114,20 +114,6 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({ route, navi
                         keyboardType="numeric"
                         returnKeyType="done"
                         inputMode="decimal"
-                    />
-                </Field>
-                <Field label="Stock">
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Stock"
-                        value={product.stock?.toString() || ''}
-                        onChangeText={text => {
-                            const num = text.replace(/[^0-9]/g, '');
-                            handleChange('stock', num);
-                        }}
-                        keyboardType="numeric"
-                        returnKeyType="done"
-                        inputMode="numeric"
                     />
                 </Field>
                 <Field label="Description">

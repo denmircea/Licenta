@@ -115,3 +115,5 @@ export const MapDestinationPointComponent = (props) => {
     );
 };
 
+export default MapDestinationPointComponent;
+

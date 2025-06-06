@@ -119,5 +119,29 @@ namespace Backend.Services
             Context.LoginAnalytics.Add(loginAnalytics);
             return Task.FromResult(Context.SaveChanges() > 0);
         }
+
+        public bool SignUp(SignUpRequest request)
+        {
+            User user = new User
+            {
+                ID = Guid.NewGuid(),
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                Password = GetUserPasswordHash(request.Password),
+                UserType = (int)CoreEnums.UserType.User, 
+                CreatedOn = DateTime.UtcNow,
+                CreatedBy = request.FirstName + " " + request.LastName,
+            };
+            Context.Users.Add(user);
+            return Context.SaveChanges() > 0;
+        }
+
+        public bool IsEmailRegistered(string email)
+        {
+            var user = Context.Users.AsNoTracking().FirstOrDefault(f => f.Email == email);
+            return user != null;
+        }
     }
 }
