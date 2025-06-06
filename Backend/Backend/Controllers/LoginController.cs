@@ -38,7 +38,7 @@ namespace Backend.Controllers
             {
                 ID = Guid.NewGuid(),
                 UserID = user.ID,
-                Date = DateTime.UtcNow,
+                Date = DateTime.Now,
                 IPAddress = Request.HttpContext.Connection.RemoteIpAddress?.ToString() ?? "",
                 UserAgent = Request.Headers["User-Agent"].ToString() ?? ""
             };

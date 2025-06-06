@@ -32,7 +32,7 @@ namespace Backend.Services
             {
                 ID = new Guid(),
                 UserID = userID,
-                CreatedOn = DateTime.UtcNow,
+                CreatedOn = DateTime.Now,
                 OrderItems = orderItems,
                 Status = 0,
                 Total = total,
@@ -123,18 +123,18 @@ namespace Backend.Services
             var result = new DeliveryUserSalesData();
             result.LastDay = new DeliveryUserSalesDataInterval
             {
-                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-1)).Sum(f => f.Total),
-                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-1))
+                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.Now.AddDays(-1)).Sum(f => f.Total),
+                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.Now.AddDays(-1))
             };
             result.LastWeek = new DeliveryUserSalesDataInterval
             {
-                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-7)).Sum(f => f.Total),
-                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-7))
+                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.Now.AddDays(-7)).Sum(f => f.Total),
+                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.Now.AddDays(-7))
             };
             result.LastMonth = new DeliveryUserSalesDataInterval
             {
-                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-30)).Sum(f => f.Total),
-                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.UtcNow.AddDays(-30))
+                TotalSales = orders.Where(f => f.CreatedOn >= DateTime.Now.AddDays(-30)).Sum(f => f.Total),
+                OrdersCount = orders.Count(f => f.CreatedOn >= DateTime.Now.AddDays(-30))
             };
             return result;
         }

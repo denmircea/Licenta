@@ -78,7 +78,7 @@ namespace Backend.Services
                     new Claim("Name", user.FirstName + " " + user.LastName ?? ""),
                     new Claim(ClaimTypes.Role, GetRoleAuthorizationName(user.UserType)),
                 }),
-                Expires = DateTime.UtcNow.AddHours(_appSettings.HoursUntilExpiration + 1000000  ),
+                Expires = DateTime.Now.AddHours(_appSettings.HoursUntilExpiration + 1000000  ),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };
@@ -131,7 +131,7 @@ namespace Backend.Services
                 PhoneNumber = request.PhoneNumber,
                 Password = GetUserPasswordHash(request.Password),
                 UserType = (int)CoreEnums.UserType.User, 
-                CreatedOn = DateTime.UtcNow,
+                CreatedOn = DateTime.Now,
                 CreatedBy = request.FirstName + " " + request.LastName,
             };
             Context.Users.Add(user);
