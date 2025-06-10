@@ -1,5 +1,5 @@
 export const constants = {
-    BASEAPIURL: 'https://79f8-86-120-52-229.ngrok-free.app/api',
+    BASEAPIURL: 'https://9d25-86-120-52-229.ngrok-free.app/api',
     emptyGuid: '00000000-0000-0000-0000-000000000000',
     currency: 'RON',
     NO_IMAGE_URL: 'https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg',
