@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/f5e54841-038b-4948-b997-dd798a87b979)
+
 PROJECT SUMMARY
 	This project focuses on the development of a mobile delivery application built with React Native, offering separate interfaces for all types of users (customers, delivery users and administrations). A key feature of the app is a personalized recommendation system, based on a custom algorithm I created. Its purpose is to suggest relevant options to users in a smart and adaptive way, depending on their preferences and behavior within the app.
 	The idea for this project came from my passion for programming, algorithms, and learning new technologies, as well as my growing interest in how digital tools support the business world. I wanted to build something practical and up-to-date, using technologies that are widely adopted in the industry today.
